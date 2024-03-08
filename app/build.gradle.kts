@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hiltPlugin)
-    kotlin("kapt")
+    alias(libs.plugins.kspPlugin)
 }
 
 android {
@@ -43,17 +43,13 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 dependencies {
@@ -63,7 +59,7 @@ dependencies {
     implementation(libs.viewmodel.base)
     implementation(libs.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
-    kapt(libs.lifecycle.kapt)
+    ksp(libs.lifecycle.kapt)
 
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
@@ -73,7 +69,8 @@ dependencies {
     implementation(libs.material3)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
 
     testImplementation(libs.junit)

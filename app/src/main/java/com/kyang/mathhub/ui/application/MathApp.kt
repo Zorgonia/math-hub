@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -30,9 +31,10 @@ enum class MathAppScreen() {
 
 @Composable
 fun MathApp(
-    viewModel: MathQuestionViewModel = viewModel(),
+    viewModel: MathQuestionViewModel,
     navController: NavHostController = rememberNavController()
 ) {
+    val viewModel = hiltViewModel<MathQuestionViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold() { innerPadding ->
