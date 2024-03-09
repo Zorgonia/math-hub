@@ -3,9 +3,11 @@ package com.kyang.mathhub.ui.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -20,7 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kyang.mathhub.R
+import com.kyang.mathhub.ui.components.NumberInputTextField
 import com.kyang.mathhub.ui.theme.MathHubTheme
+import kotlin.math.max
 
 @Composable
 fun OptionsScreen(
@@ -33,32 +37,44 @@ fun OptionsScreen(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceAround,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            TextField(
-                value = minVal, onValueChange = onMinChange, label = {
+
+            NumberInputTextField(
+                value = minVal, onValueChange = onMinChange,
+                label = {
                     Text(stringResource(id = R.string.question_setting_min_num))
                 },
-                modifier = Modifier.width(100.dp).wrapContentHeight()
+                onSubmit = { },
+                modifier = Modifier
+                    .width(100.dp)
+                    .wrapContentHeight()
             )
 
-            TextField(
-                value = maxVal, onValueChange = onMaxChange, label = {
+            NumberInputTextField(
+                value = maxVal, onValueChange = onMaxChange,
+                label = {
                     Text(stringResource(id = R.string.question_setting_max_num))
                 },
-                modifier = Modifier.width(100.dp).wrapContentHeight()
+                onSubmit = { },
+                modifier = Modifier
+                    .width(100.dp)
+                    .wrapContentHeight()
             )
         }
 
+        Spacer(modifier = Modifier.padding(vertical = 32.dp))
         Button(onClick = onNextClicked) {
-            Text(stringResource(id = R.string.start_cta),
+            Text(
+                stringResource(id = R.string.start_cta),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.wrapContentHeight())
+                modifier = Modifier.wrapContentHeight()
+            )
         }
     }
 }

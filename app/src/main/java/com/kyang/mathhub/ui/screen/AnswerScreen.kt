@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -35,22 +36,23 @@ fun AnswerScreen(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceAround,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (submitted) {
-            Text(text = stringResource(id = if (correct) R.string.question_correct else R.string.question_incorrect))
+            Text(text = stringResource(id = if (correct) R.string.question_correct else R.string.question_incorrect), modifier = Modifier.padding(bottom = 16.dp))
             Text(
                 text = stringResource(
                     id = R.string.question_multiplication_answer,
                     first,
                     second,
                     realAnswer
-                )
+                ),
+                modifier = Modifier.padding(bottom = 16.dp)
             )
 
             if (!correct) {
-                Text(text = stringResource(id = R.string.question_your_answer, answer))
+                Text(text = stringResource(id = R.string.question_your_answer, answer), modifier = Modifier.padding(bottom = 16.dp))
             }
 
             Button(onClick = onNext) {

@@ -3,6 +3,7 @@ package com.kyang.mathhub.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.kyang.mathhub.ui.data.MathQuestionUiState
+import com.kyang.mathhub.ui.repo.MathQuestionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,9 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class MathQuestionViewModel @Inject constructor(): ViewModel() {
+class MathQuestionViewModel @Inject constructor(
+    private val mathQuestionRepository: MathQuestionRepository
+): ViewModel() {
 
     private val _uiState = MutableStateFlow(MathQuestionUiState())
     val uiState: StateFlow<MathQuestionUiState> = _uiState.asStateFlow()
@@ -45,9 +48,10 @@ class MathQuestionViewModel @Inject constructor(): ViewModel() {
 
     fun resetQuestion() {
         _uiState.update { curr ->
+            val newPair = mathQuestionRepository.getNewQuestion(curr.minNum.toInt(), curr.maxNum.toInt(), Pair(curr.first, curr.second))
             curr.copy(
-                first = Random.nextInt(curr.minNum.toInt(), curr.maxNum.toInt()),
-                second = Random.nextInt(curr.minNum.toInt(), curr.maxNum.toInt()),
+                first = newPair.first,
+                second = newPair.second,
                 answer = "",
                 submitted = false,
                 correct = false
@@ -69,7 +73,7 @@ class MathQuestionViewModel @Inject constructor(): ViewModel() {
         try {
             _uiState.update { curr ->
                 val intAns = curr.answer.toInt()
-                if (intAns == curr.first * curr.second) {
+                if (intAns == mathQuestionRepository.getAnswer(Pair(curr.first, curr.second))) {
                     curr.copy(
                         submitted = true,
                         correct = true

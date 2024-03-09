@@ -37,6 +37,7 @@ fun MathApp(
     val viewModel = hiltViewModel<MathQuestionViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
+
     Scaffold() { innerPadding ->
         NavHost(
             navController = navController,
@@ -45,7 +46,7 @@ fun MathApp(
         ) {
             composable(route = MathAppScreen.Home.name) {
                 HomeScreen(
-                    onNextClicked = { navController.navigate(MathAppScreen.MathOptions.name) },
+                    onNextClicked = { navController.navigate(MathAppScreen.MathOptions.name) { launchSingleTop = true } },
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -72,8 +73,10 @@ fun MathApp(
                     onAnswerChange = {viewModel.updateAnswer(it)},
                     onSubmit = {
                         viewModel.answerQuestion()
+                        navController.popBackStack()
                         navController.navigate(MathAppScreen.MathAnswer.name)
-                    }
+                    },
+                    modifier = Modifier.fillMaxSize()
                 )
             }
 
@@ -85,10 +88,12 @@ fun MathApp(
                     answer = uiState.answer,
                     realAnswer = viewModel.getRealAnswer(),
                     onNext = {
-                        navController.navigate(MathAppScreen.MathQuestion.name)
                         viewModel.resetQuestion()
+                        navController.popBackStack()
+                        navController.navigate(MathAppScreen.MathQuestion.name)
                     },
-                    submitted = uiState.submitted
+                    submitted = uiState.submitted,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
 
