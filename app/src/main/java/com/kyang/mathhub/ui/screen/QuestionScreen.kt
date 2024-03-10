@@ -97,7 +97,7 @@ fun QuestionScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun QuestionScreenScreenPreview() {
+private fun QuestionScreenPreview() {
     MathHubTheme {
         QuestionScreen(
             first = 1,

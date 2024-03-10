@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class MathQuestionViewModel @Inject constructor(
@@ -46,7 +45,28 @@ class MathQuestionViewModel @Inject constructor(
         }
     }
 
-    fun resetQuestion() {
+    fun setEndless(endless: Boolean) {
+        _uiState.update { curr ->
+            curr.copy(
+                endless = endless
+            )
+        }
+    }
+
+    fun setMaxRound(maxRound: String) {
+        try {
+            val check = maxRound.toInt()
+            _uiState.update { curr ->
+                curr.copy(
+                    maxRound = check
+                )
+            }
+        } catch (e: Exception) {
+            Log.e("com.kyang.mathhub", "maxRound must be int")
+        }
+    }
+
+    fun nextQuestion() {
         _uiState.update { curr ->
             val newPair = mathQuestionRepository.getNewQuestion(curr.minNum.toInt(), curr.maxNum.toInt(), Pair(curr.first, curr.second))
             curr.copy(
@@ -54,7 +74,24 @@ class MathQuestionViewModel @Inject constructor(
                 second = newPair.second,
                 answer = "",
                 submitted = false,
-                correct = false
+                correct = false,
+                round = curr.round + 1
+            )
+        }
+    }
+
+    fun resetGame() {
+        _uiState.update { curr ->
+            val newPair = mathQuestionRepository.getNewQuestion(curr.minNum.toInt(), curr.maxNum.toInt(), Pair(curr.first, curr.second))
+            curr.copy(
+                first = newPair.first,
+                second = newPair.second,
+                answer = "",
+                submitted = false,
+                correct = false,
+                round = 1,
+                score = 0,
+                gameOver = false
             )
         }
     }
@@ -70,22 +107,27 @@ class MathQuestionViewModel @Inject constructor(
     }
 
     fun answerQuestion() {
+        val gameOver = uiState.value.maxRound == uiState.value.round && !uiState.value.endless
         try {
             _uiState.update { curr ->
-                val intAns = curr.answer.toInt()
-                if (intAns == mathQuestionRepository.getAnswer(Pair(curr.first, curr.second))) {
+                if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(Pair(curr.first, curr.second))) {
                     curr.copy(
                         submitted = true,
-                        correct = true
+                        correct = true,
+                        score = curr.score + 1,
+                        gameOver = gameOver
                     )
                 } else {
                     curr.copy(
                         submitted = true,
-                        correct = false
+                        correct = false,
+                        gameOver = gameOver
                     )
                 }
+
             }
         } catch (e: Exception) {
+            Log.d("test", "exception $e")
             _uiState.update { curr ->
                 curr.copy(
                     submitted = true,

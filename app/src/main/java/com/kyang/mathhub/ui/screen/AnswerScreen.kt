@@ -3,6 +3,7 @@ package com.kyang.mathhub.ui.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,10 @@ import com.kyang.mathhub.ui.theme.MathHubTheme
 fun AnswerScreen(
     first: Int,
     second: Int,
+    score: Int,
+    round: Int,
+    maxRound: Int,
+    endless: Boolean,
     correct: Boolean,
     answer: String,
     realAnswer: String,
@@ -55,6 +60,37 @@ fun AnswerScreen(
                 Text(text = stringResource(id = R.string.question_your_answer, answer), modifier = Modifier.padding(bottom = 16.dp))
             }
 
+            Spacer(modifier = Modifier.padding(16.dp))
+
+            Text(
+                text = stringResource(
+                    id = R.string.question_score,
+                    score
+                ),
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            if (endless) {
+                Text(
+                    text = stringResource(
+                        id = R.string.question_round_endless,
+                        round
+                    ),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            } else {
+                Text(
+                    text = stringResource(
+                        id = R.string.question_round_out_of,
+                        round,
+                        maxRound
+                    ),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+            
+            Spacer(modifier = Modifier.padding(16.dp))
+
             Button(onClick = onNext) {
                 Text(
                     stringResource(id = R.string.next_cta),
@@ -68,16 +104,20 @@ fun AnswerScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun QuestionScreenScreenPreview() {
+private fun AnswerScreenPreview() {
     MathHubTheme {
         AnswerScreen(
             first = 1,
             second = 1,
+            score = 0,
+            round = 1,
+            maxRound = 10,
+            endless = true,
             correct = false,
             realAnswer = "1",
             onNext = {},
             answer = "100",
-            submitted = false,
+            submitted = true,
             modifier = Modifier.fillMaxSize()
         )
     }

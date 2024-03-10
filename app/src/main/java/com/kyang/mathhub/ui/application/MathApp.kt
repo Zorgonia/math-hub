@@ -1,6 +1,5 @@
 package com.kyang.mathhub.ui.application
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,29 +8,27 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kyang.mathhub.ui.screen.AnswerScreen
+import com.kyang.mathhub.ui.screen.GameEndScreen
 import com.kyang.mathhub.ui.screen.HomeScreen
 import com.kyang.mathhub.ui.screen.OptionsScreen
 import com.kyang.mathhub.ui.screen.QuestionScreen
 import com.kyang.mathhub.ui.viewmodel.MathQuestionViewModel
-import java.lang.StackWalker.Option
 
 enum class MathAppScreen() {
     MathQuestion,
     MathAnswer,
     MathOptions,
+    MathGameEnd,
     Home
 }
 
 @Composable
 fun MathApp(
-    viewModel: MathQuestionViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     val viewModel = hiltViewModel<MathQuestionViewModel>()
@@ -57,8 +54,12 @@ fun MathApp(
                     onMaxChange = { viewModel.setMax(it) },
                     minVal = uiState.minNum,
                     maxVal = uiState.maxNum,
+                    maxRound = uiState.maxRound.toString(),
+                    onRoundChange = { viewModel.setMaxRound(it) },
+                    endless = uiState.endless,
+                    onEndlessChange = { viewModel.setEndless(it) },
                     onNextClicked = {
-                        viewModel.resetQuestion()
+                        viewModel.resetGame()
                         navController.navigate(MathAppScreen.MathQuestion.name)
                     },
                     modifier = Modifier.fillMaxSize()
@@ -75,6 +76,7 @@ fun MathApp(
                         viewModel.answerQuestion()
                         navController.popBackStack()
                         navController.navigate(MathAppScreen.MathAnswer.name)
+
                     },
                     modifier = Modifier.fillMaxSize()
                 )
@@ -84,19 +86,42 @@ fun MathApp(
                 AnswerScreen(
                     first = uiState.first,
                     second = uiState.second,
+                    score = uiState.score,
+                    round = uiState.round,
+                    maxRound = uiState.maxRound,
+                    endless = uiState.endless,
                     correct = uiState.correct,
                     answer = uiState.answer,
                     realAnswer = viewModel.getRealAnswer(),
                     onNext = {
-                        viewModel.resetQuestion()
                         navController.popBackStack()
-                        navController.navigate(MathAppScreen.MathQuestion.name)
+                        if (uiState.gameOver) {
+                            navController.navigate(MathAppScreen.MathGameEnd.name)
+                        } else {
+                            viewModel.nextQuestion()
+                            navController.navigate(MathAppScreen.MathQuestion.name)
+                        }
                     },
                     submitted = uiState.submitted,
                     modifier = Modifier.fillMaxSize()
                 )
             }
 
+            composable(route = MathAppScreen.MathGameEnd.name) {
+                GameEndScreen(
+                    score = uiState.score,
+                    round = uiState.maxRound,
+                    onReset = {
+                        viewModel.resetGame()
+                        navController.popBackStack()
+                        navController.navigate(MathAppScreen.MathQuestion.name)
+                    },
+                    onSettings = {
+                        navController.popBackStack(MathAppScreen.MathOptions.name, inclusive = false)
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
 
         }
     }

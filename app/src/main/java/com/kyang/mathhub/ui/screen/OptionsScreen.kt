@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -30,6 +32,10 @@ import kotlin.math.max
 fun OptionsScreen(
     onMinChange: (String) -> Unit,
     onMaxChange: (String) -> Unit,
+    maxRound: String,
+    onRoundChange: (String) -> Unit,
+    endless: Boolean,
+    onEndlessChange: (Boolean) -> Unit,
     minVal: String,
     maxVal: String,
     onNextClicked: () -> Unit,
@@ -41,7 +47,7 @@ fun OptionsScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
 
@@ -68,6 +74,30 @@ fun OptionsScreen(
             )
         }
 
+        if (!endless) {
+            NumberInputTextField(
+                value = maxRound, onValueChange = onRoundChange,
+                label = {
+                    Text(stringResource(id = R.string.question_setting_num_rounds))
+                },
+                onSubmit = { },
+                modifier = Modifier
+                    .width(100.dp)
+                    .wrapContentHeight()
+                    .padding(bottom = 32.dp)
+            )
+        }
+
+        Row(
+            modifier = Modifier.padding(bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                stringResource(id = R.string.question_setting_endless),
+            )
+            Checkbox(checked = endless, onCheckedChange = onEndlessChange)
+        }
+
         Spacer(modifier = Modifier.padding(vertical = 32.dp))
         Button(onClick = onNextClicked) {
             Text(
@@ -89,6 +119,10 @@ private fun QuestionSettingScreenPreview() {
             onNextClicked = {},
             maxVal = "",
             minVal = "",
+            onEndlessChange = {},
+            onRoundChange = {},
+            endless = false,
+            maxRound = "1",
             modifier = Modifier.fillMaxSize()
         )
     }

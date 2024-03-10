@@ -8,4 +8,9 @@ data class MathQuestionUiState(
     val answer: String = "",
     val submitted: Boolean = false,
     val correct: Boolean = false,
+    val score: Int = 0,
+    val round: Int = 0,
+    val maxRound: Int = 10,
+    val endless: Boolean = true,
+    val gameOver: Boolean = false
 )
