@@ -1,4 +1,4 @@
-package com.kyang.mathhub.ui.helper
+package com.kyang.mathhub.helper
 
 fun String.isInt(): Boolean {
     val regex = "-?[0-9]+".toRegex()

@@ -1,4 +1,4 @@
-package com.kyang.mathhub.ui.application
+package com.kyang.mathhub.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

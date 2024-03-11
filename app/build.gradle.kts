@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     ksp(libs.lifecycle.kapt)
+//    kapt(libs.lifecycle.kapt)
 
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))

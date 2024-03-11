@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -23,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kyang.mathhub.R
 import com.kyang.mathhub.ui.components.NumberInputTextField
+import com.kyang.mathhub.ui.components.QuestionSettingCheckOption
+import com.kyang.mathhub.ui.components.QuestionSettingNumberField
 import com.kyang.mathhub.ui.theme.MathHubTheme
 import kotlin.math.max
 
@@ -30,6 +34,14 @@ import kotlin.math.max
 fun OptionsScreen(
     onMinChange: (String) -> Unit,
     onMaxChange: (String) -> Unit,
+    maxRound: String,
+    onRoundChange: (String) -> Unit,
+    endless: Boolean,
+    onEndlessChange: (Boolean) -> Unit,
+    maxTime: String,
+    onMaxTimeChange: (String) -> Unit,
+    timeEnabled: Boolean,
+    timeEnabledChange: (Boolean) -> Unit,
     minVal: String,
     maxVal: String,
     onNextClicked: () -> Unit,
@@ -41,34 +53,48 @@ fun OptionsScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 32.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
 
-            NumberInputTextField(
-                value = minVal, onValueChange = onMinChange,
-                label = {
-                    Text(stringResource(id = R.string.question_setting_min_num))
-                },
-                onSubmit = { },
-                modifier = Modifier
-                    .width(100.dp)
-                    .wrapContentHeight()
+            QuestionSettingNumberField(
+                title = R.string.question_setting_min_num,
+                value = minVal,
+                onValueChange = onMinChange
             )
 
-            NumberInputTextField(
-                value = maxVal, onValueChange = onMaxChange,
-                label = {
-                    Text(stringResource(id = R.string.question_setting_max_num))
-                },
-                onSubmit = { },
-                modifier = Modifier
-                    .width(100.dp)
-                    .wrapContentHeight()
+            QuestionSettingNumberField(
+                title = R.string.question_setting_max_num,
+                value = maxVal,
+                onValueChange = onMaxChange
             )
+
         }
 
-        Spacer(modifier = Modifier.padding(vertical = 32.dp))
+        QuestionSettingCheckOption(
+            optionTitle = R.string.question_setting_endless,
+            checked = endless,
+            onCheckChange = onEndlessChange,
+            value = maxRound,
+            onValueChange = onRoundChange,
+            inputTitle = R.string.question_setting_num_rounds,
+            showOnEnabled = false,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        QuestionSettingCheckOption(
+            optionTitle = R.string.question_setting_use_round_timer,
+            checked = timeEnabled,
+            onCheckChange = timeEnabledChange,
+            value = maxTime,
+            onValueChange = onMaxTimeChange,
+            inputTitle = R.string.question_setting_round_timer,
+            showOnEnabled = true,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
         Button(onClick = onNextClicked) {
             Text(
                 stringResource(id = R.string.start_cta),
@@ -89,6 +115,14 @@ private fun QuestionSettingScreenPreview() {
             onNextClicked = {},
             maxVal = "",
             minVal = "",
+            onEndlessChange = {},
+            onRoundChange = {},
+            endless = false,
+            maxRound = "1",
+            maxTime = "10",
+            onMaxTimeChange = {},
+            timeEnabledChange = {},
+            timeEnabled = true,
             modifier = Modifier.fillMaxSize()
         )
     }
