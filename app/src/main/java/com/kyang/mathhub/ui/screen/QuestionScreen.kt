@@ -1,43 +1,28 @@
 package com.kyang.mathhub.ui.screen
 
-import android.util.Log
 import android.view.KeyEvent
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kyang.mathhub.R
 import com.kyang.mathhub.ui.components.NumberInputTextField
-import com.kyang.mathhub.ui.helper.isInt
 import com.kyang.mathhub.ui.theme.MathHubTheme
 
 @Composable
@@ -46,6 +31,9 @@ fun QuestionScreen(
     second: Int,
     answer: String,
     onAnswerChange: (String) -> Unit,
+    currTime: Int,
+    maxTime: Int,
+    timeEnabled: Boolean,
     onSubmit: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -88,6 +76,15 @@ fun QuestionScreen(
             )
         }
 
+        if (timeEnabled) {
+            CircularProgressIndicator(
+                progress = { (currTime.toFloat() / maxTime) },
+                modifier = Modifier.padding(top = 16.dp),
+                color = MaterialTheme.colorScheme.secondary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant
+            )
+        }
+
         //TODO figure out if there's a better way
         LaunchedEffect(first) {
             focusRequester.requestFocus()
@@ -102,6 +99,9 @@ private fun QuestionScreenPreview() {
         QuestionScreen(
             first = 1,
             second = 1,
+            currTime = 3,
+            maxTime = 10,
+            timeEnabled = false,
             onAnswerChange = {},
             onSubmit = {},
             answer = "",

@@ -34,6 +34,9 @@ fun AnswerScreen(
     endless: Boolean,
     correct: Boolean,
     answer: String,
+    timeLeft: Int,
+    timeEnabled: Boolean,
+    roundScore: Int,
     realAnswer: String,
     onNext: () -> Unit,
     submitted: Boolean,
@@ -61,6 +64,24 @@ fun AnswerScreen(
             }
 
             Spacer(modifier = Modifier.padding(16.dp))
+
+            if (timeEnabled) {
+                Text(
+                    text = stringResource(
+                        id = R.string.question_time_left,
+                        timeLeft
+                    ),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                Text(
+                    text = stringResource(
+                        id = R.string.question_score_round,
+                        roundScore
+                    ),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
 
             Text(
                 text = stringResource(
@@ -117,6 +138,9 @@ private fun AnswerScreenPreview() {
             realAnswer = "1",
             onNext = {},
             answer = "100",
+            timeLeft = 1,
+            timeEnabled = false,
+            roundScore = 20,
             submitted = true,
             modifier = Modifier.fillMaxSize()
         )

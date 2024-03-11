@@ -3,7 +3,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hiltPlugin)
-    alias(libs.plugins.kspPlugin)
+//    alias(libs.plugins.kspPlugin)
+    kotlin("kapt")
 }
 
 android {
@@ -59,7 +60,8 @@ dependencies {
     implementation(libs.viewmodel.base)
     implementation(libs.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
-    ksp(libs.lifecycle.kapt)
+//    ksp(libs.lifecycle.kapt)
+    kapt(libs.lifecycle.kapt)
 
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
@@ -69,7 +71,8 @@ dependencies {
     implementation(libs.material3)
 
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+//    ksp(libs.hilt.compiler)
+    kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
 

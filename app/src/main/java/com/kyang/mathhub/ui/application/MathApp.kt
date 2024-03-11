@@ -62,6 +62,10 @@ fun MathApp(
                         viewModel.resetGame()
                         navController.navigate(MathAppScreen.MathQuestion.name)
                     },
+                    maxTime = uiState.maxTime.toString(),
+                    onMaxTimeChange = { viewModel.setMaxTime(it) },
+                    timeEnabled = uiState.timeEnabled,
+                    timeEnabledChange = { viewModel.setTimeEnabled(it) },
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -74,12 +78,16 @@ fun MathApp(
                     onAnswerChange = {viewModel.updateAnswer(it)},
                     onSubmit = {
                         viewModel.answerQuestion()
-                        navController.popBackStack()
-                        navController.navigate(MathAppScreen.MathAnswer.name)
-
                     },
+                    currTime = uiState.currTime,
+                    maxTime = uiState.maxTime,
+                    timeEnabled = uiState.timeEnabled,
                     modifier = Modifier.fillMaxSize()
                 )
+                if (uiState.submitted) {
+                    navController.popBackStack()
+                    navController.navigate(MathAppScreen.MathAnswer.name)
+                }
             }
 
             composable(route = MathAppScreen.MathAnswer.name) {
@@ -91,6 +99,9 @@ fun MathApp(
                     maxRound = uiState.maxRound,
                     endless = uiState.endless,
                     correct = uiState.correct,
+                    timeLeft = uiState.currTime,
+                    timeEnabled = uiState.timeEnabled,
+                    roundScore = uiState.roundScore,
                     answer = uiState.answer,
                     realAnswer = viewModel.getRealAnswer(),
                     onNext = {

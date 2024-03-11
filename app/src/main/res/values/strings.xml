@@ -5,6 +5,9 @@
     <string name="question_setting_max_num">Max #</string>
     <string name="question_setting_num_rounds"># of Round</string>
     <string name="question_setting_endless">Endless Mode</string>
+    <string name="question_setting_round_timer">Timer</string>
+    <string name="question_setting_use_round_timer">Use Round Timer</string>
+
 
     <string name="continue_cta">Continue</string>
     <string name="next_cta">Next</string>
@@ -20,7 +23,9 @@
     <string name="question_equals">=</string>
     <string name="question_answer">Answer</string>
     <string name="question_your_answer">Your answer: %1$s</string>
-    <string name="question_score">Score: %1$d</string>
+    <string name="question_score">Total Score: %1$d</string>
+    <string name="question_time_left">Time Left: %1$d</string>
+    <string name="question_score_round">Round score: %1$d</string>
     <string name="question_round_out_of">Round: %1$d/%2$d</string>
     <string name="question_round_endless">Rounds so far: %1$d</string>
 
