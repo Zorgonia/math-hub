@@ -1,4 +1,4 @@
-package com.kyang.mathhub.ui.application
+package com.kyang.mathhub.application
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

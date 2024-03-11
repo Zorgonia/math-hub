@@ -1,6 +1,7 @@
-package com.kyang.mathhub.ui.repo
+package com.kyang.mathhub.repo
 
 import javax.inject.Inject
+import kotlin.math.min
 import kotlin.random.Random
 
 class MathQuestionRepositoryImpl @Inject constructor(
@@ -22,6 +23,15 @@ class MathQuestionRepositoryImpl @Inject constructor(
 
     override fun getAnswer(nums: Pair<Int, Int>): Int {
         return nums.first * nums.second
+    }
+
+    //TODO use cases
+    override fun getScore(timeRemaining: Int, maxTime: Int, timed: Boolean): Int {
+        if (!timed) return 1
+        if (maxTime <= 2) {
+            return 100
+        }
+        return min((((timeRemaining) * 100) / (maxTime - 1)), 100)
     }
 
 }

@@ -3,8 +3,8 @@ package com.kyang.mathhub.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kyang.mathhub.ui.data.MathQuestionUiState
-import com.kyang.mathhub.ui.repo.MathQuestionRepository
+import com.kyang.mathhub.data.MathQuestionUiState
+import com.kyang.mathhub.repo.MathQuestionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MathQuestionViewModel @Inject constructor(
     private val mathQuestionRepository: MathQuestionRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MathQuestionUiState())
     val uiState: StateFlow<MathQuestionUiState> = _uiState.asStateFlow()
@@ -95,7 +95,11 @@ class MathQuestionViewModel @Inject constructor(
 
     fun nextQuestion() {
         _uiState.update { curr ->
-            val newPair = mathQuestionRepository.getNewQuestion(curr.minNum.toInt(), curr.maxNum.toInt(), Pair(curr.first, curr.second))
+            val newPair = mathQuestionRepository.getNewQuestion(
+                curr.minNum.toInt(),
+                curr.maxNum.toInt(),
+                Pair(curr.first, curr.second)
+            )
             curr.copy(
                 first = newPair.first,
                 second = newPair.second,
@@ -112,7 +116,11 @@ class MathQuestionViewModel @Inject constructor(
 
     fun resetGame() {
         _uiState.update { curr ->
-            val newPair = mathQuestionRepository.getNewQuestion(curr.minNum.toInt(), curr.maxNum.toInt(), Pair(curr.first, curr.second))
+            val newPair = mathQuestionRepository.getNewQuestion(
+                curr.minNum.toInt(),
+                curr.maxNum.toInt(),
+                Pair(curr.first, curr.second)
+            )
             curr.copy(
                 first = newPair.first,
                 second = newPair.second,
@@ -144,8 +152,15 @@ class MathQuestionViewModel @Inject constructor(
         resetTimer()
         try {
             _uiState.update { curr ->
-                val roundScore = if (curr.timeEnabled) (curr.currTime * 100 / curr.maxTime) else 1
-                if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(Pair(curr.first, curr.second))) {
+                val roundScore = mathQuestionRepository.getScore(
+                    timeRemaining = curr.currTime,
+                    maxTime = curr.maxTime,
+                    timed = curr.timeEnabled
+                )
+                if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(
+                        Pair(curr.first, curr.second)
+                    )
+                ) {
                     curr.copy(
                         submitted = true,
                         correct = true,
@@ -189,8 +204,7 @@ class MathQuestionViewModel @Inject constructor(
         timerJob?.cancel()
         if (!_uiState.value.timeEnabled) return
         timerJob = viewModelScope.launch {
-            Log.d("test", "timer ${_uiState.value.currTime}")
-            for (i in 0 until _uiState.value.maxTime ) {
+            for (i in 0 until _uiState.value.maxTime) {
                 delay(1000)
                 decrementQuestionTimer()
             }

@@ -1,4 +1,4 @@
-package com.kyang.mathhub.ui.data
+package com.kyang.mathhub.data
 
 data class MathQuestionUiState(
     val first: Int = 0,

@@ -1,4 +1,4 @@
-package com.kyang.mathhub.ui.repo
+package com.kyang.mathhub.repo
 
 import dagger.Binds
 import dagger.Module

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.kyang.mathhub.ui.helper.isInt
+import com.kyang.mathhub.helper.isInt
 
 @Composable
 fun NumberInputTextField(

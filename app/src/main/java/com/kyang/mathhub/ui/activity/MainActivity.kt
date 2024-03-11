@@ -7,11 +7,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.kyang.mathhub.ui.application.MathApp
+import com.kyang.mathhub.application.MathApp
 import com.kyang.mathhub.ui.theme.MathHubTheme
 import com.kyang.mathhub.ui.viewmodel.MathQuestionViewModel
 import dagger.hilt.android.AndroidEntryPoint

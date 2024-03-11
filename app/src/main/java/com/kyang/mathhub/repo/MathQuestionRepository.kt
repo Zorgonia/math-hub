@@ -1,4 +1,4 @@
-package com.kyang.mathhub.ui.repo
+package com.kyang.mathhub.repo
 
 import javax.inject.Inject
 
@@ -6,4 +6,6 @@ interface MathQuestionRepository {
     fun getNewQuestion(min: Int, max: Int, old: Pair<Int, Int>): Pair<Int, Int>
 
     fun getAnswer(nums: Pair<Int, Int>): Int
+
+    fun getScore(timeRemaining: Int, maxTime: Int, timed: Boolean): Int
 }
