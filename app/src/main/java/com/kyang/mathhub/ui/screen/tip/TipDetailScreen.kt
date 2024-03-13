@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kyang.mathhub.R
-import com.kyang.mathhub.ui.screen.math.QuestionScreen
 import com.kyang.mathhub.ui.theme.MathHubTheme
 
 @Composable

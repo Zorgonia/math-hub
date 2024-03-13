@@ -21,12 +21,41 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.kyang.mathhub.R
+import com.kyang.mathhub.data.MathQuestionUiState
+import com.kyang.mathhub.navigation.MathAppScreen
 import com.kyang.mathhub.ui.components.NumberInputTextField
 import com.kyang.mathhub.ui.theme.MathHubTheme
+import com.kyang.mathhub.ui.viewmodel.MathQuestionViewModel
 
 @Composable
-fun QuestionScreen(
+fun QuestionPage(
+    uiState: MathQuestionUiState,
+    mathQuestionViewModel: MathQuestionViewModel,
+    mathQuestionNavController: NavHostController
+) {
+    QuestionScreen(
+        first = uiState.first,
+        second = uiState.second,
+        answer = uiState.answer,
+        onAnswerChange = { mathQuestionViewModel.updateAnswer(it) },
+        onSubmit = {
+            mathQuestionViewModel.answerQuestion()
+        },
+        currTime = uiState.currTime,
+        maxTime = uiState.maxTime,
+        timeEnabled = uiState.timeEnabled,
+        modifier = Modifier.fillMaxSize()
+    )
+    if (uiState.submitted) {
+        mathQuestionNavController.popBackStack()
+        mathQuestionNavController.navigate(MathAppScreen.MathAnswer.route)
+    }
+}
+
+@Composable
+private fun QuestionScreen(
     first: Int,
     second: Int,
     answer: String,

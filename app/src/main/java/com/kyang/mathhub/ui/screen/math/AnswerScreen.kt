@@ -10,16 +10,56 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.kyang.mathhub.R
+import com.kyang.mathhub.data.MathQuestionUiState
+import com.kyang.mathhub.navigation.MathAppScreen
 import com.kyang.mathhub.ui.theme.MathHubTheme
+import com.kyang.mathhub.ui.viewmodel.MathQuestionViewModel
 
 @Composable
-fun AnswerScreen(
+fun AnswerPage(
+    uiState: MathQuestionUiState,
+    mathQuestionViewModel: MathQuestionViewModel,
+    mathQuestionNavController: NavHostController
+) {
+    AnswerScreen(
+        first = uiState.first,
+        second = uiState.second,
+        score = uiState.score,
+        round = uiState.round,
+        maxRound = uiState.maxRound,
+        endless = uiState.endless,
+        correct = uiState.correct,
+        timeLeft = uiState.currTime,
+        timeEnabled = uiState.timeEnabled,
+        roundScore = uiState.roundScore,
+        answer = uiState.answer,
+        realAnswer = mathQuestionViewModel.getRealAnswer(),
+        onNext = {
+            mathQuestionNavController.popBackStack()
+            if (uiState.gameOver) {
+                mathQuestionNavController.navigate(MathAppScreen.MathGameEnd.route)
+            } else {
+                mathQuestionViewModel.nextQuestion()
+                mathQuestionNavController.navigate(MathAppScreen.MathQuestion.route)
+            }
+        },
+        submitted = uiState.submitted,
+        modifier = Modifier.fillMaxSize()
+    )
+}
+@Composable
+private fun AnswerScreen(
     first: Int,
     second: Int,
     score: Int,
@@ -36,6 +76,8 @@ fun AnswerScreen(
     submitted: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val focusRequester = remember { FocusRequester() }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -106,12 +148,16 @@ fun AnswerScreen(
             
             Spacer(modifier = Modifier.padding(16.dp))
 
-            Button(onClick = onNext) {
+            Button(onClick = onNext, modifier = Modifier.focusRequester(focusRequester)) {
                 Text(
                     stringResource(id = R.string.next_cta),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.wrapContentHeight()
                 )
+            }
+
+            LaunchedEffect(first) {
+                focusRequester.requestFocus()
             }
         }
     }

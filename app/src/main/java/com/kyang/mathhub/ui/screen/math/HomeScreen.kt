@@ -11,11 +11,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import com.kyang.mathhub.R
+import com.kyang.mathhub.data.MathQuestionUiState
+import com.kyang.mathhub.navigation.MathAppScreen
 import com.kyang.mathhub.ui.theme.MathHubTheme
 
 @Composable
-fun HomeScreen(
+fun HomePage(
+    mathQuestionNavController: NavHostController
+) {
+    HomeScreen(
+        onNextClicked = {
+            mathQuestionNavController.navigate(MathAppScreen.MathOptions.route) {
+                launchSingleTop = true
+            }
+        },
+        modifier = Modifier.fillMaxSize()
+    )
+}
+
+@Composable
+private fun HomeScreen(
     onNextClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {

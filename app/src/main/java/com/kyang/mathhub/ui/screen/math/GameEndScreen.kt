@@ -15,11 +15,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.kyang.mathhub.R
+import com.kyang.mathhub.data.MathQuestionUiState
+import com.kyang.mathhub.navigation.MathAppScreen
 import com.kyang.mathhub.ui.theme.MathHubTheme
+import com.kyang.mathhub.ui.viewmodel.MathQuestionViewModel
 
 @Composable
-fun GameEndScreen(
+fun GameEndPage(
+    uiState: MathQuestionUiState,
+    mathQuestionViewModel: MathQuestionViewModel,
+    mathQuestionNavController: NavHostController
+) {
+    GameEndScreen(
+        score = uiState.score,
+        round = uiState.maxRound,
+        onReset = {
+            mathQuestionViewModel.resetGame()
+            mathQuestionNavController.popBackStack()
+            mathQuestionNavController.navigate(MathAppScreen.MathQuestion.route)
+        },
+        onSettings = {
+            mathQuestionNavController.popBackStack(
+                MathAppScreen.MathOptions.route,
+                inclusive = false
+            )
+        },
+        modifier = Modifier.fillMaxSize()
+    )
+}
+
+@Composable
+private fun GameEndScreen(
     score: Int,
     round: Int,
     onReset: () -> Unit,

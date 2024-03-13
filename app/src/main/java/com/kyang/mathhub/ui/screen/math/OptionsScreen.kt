@@ -16,11 +16,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.kyang.mathhub.R
+import com.kyang.mathhub.data.MathQuestionUiState
+import com.kyang.mathhub.navigation.MathAppScreen
 import com.kyang.mathhub.ui.components.QuestionSettingCheckOption
 import com.kyang.mathhub.ui.components.QuestionSettingNumberField
 import com.kyang.mathhub.ui.theme.MathHubTheme
+import com.kyang.mathhub.ui.viewmodel.MathQuestionViewModel
 
+@Composable
+fun OptionsPage(
+    uiState: MathQuestionUiState,
+    mathQuestionViewModel: MathQuestionViewModel,
+    mathQuestionNavController: NavHostController
+) {
+    OptionsScreen(
+        onMinChange = { mathQuestionViewModel.setMin(it) },
+        onMaxChange = { mathQuestionViewModel.setMax(it) },
+        minVal = uiState.minNum,
+        maxVal = uiState.maxNum,
+        maxRound = uiState.maxRound.toString(),
+        onRoundChange = { mathQuestionViewModel.setMaxRound(it) },
+        endless = uiState.endless,
+        onEndlessChange = { mathQuestionViewModel.setEndless(it) },
+        onNextClicked = {
+            mathQuestionViewModel.resetGame()
+            mathQuestionNavController.navigate(MathAppScreen.MathQuestion.route)
+        },
+        maxTime = uiState.maxTime.toString(),
+        onMaxTimeChange = { mathQuestionViewModel.setMaxTime(it) },
+        timeEnabled = uiState.timeEnabled,
+        timeEnabledChange = { mathQuestionViewModel.setTimeEnabled(it) },
+        modifier = Modifier.fillMaxSize()
+    )
+}
 @Composable
 fun OptionsScreen(
     onMinChange: (String) -> Unit,
