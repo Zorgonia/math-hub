@@ -156,6 +156,7 @@ private fun AnswerScreen(
                 )
             }
 
+
             LaunchedEffect(first) {
                 focusRequester.requestFocus()
             }

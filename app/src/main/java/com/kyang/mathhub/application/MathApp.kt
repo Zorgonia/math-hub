@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -61,8 +60,8 @@ fun MathApp(
                 ),
                 onClick = { route ->
                     bottomNavController.navigate(route) {
-                        popUpTo(bottomNavController.graph.findStartDestination().id) {
-                            saveState = true
+                        bottomNavController.graph.findNode(route)?.id?.let {
+                            popUpTo(it)
                         }
                         restoreState = true
                         launchSingleTop = true
@@ -71,6 +70,7 @@ fun MathApp(
             )
         }
     ) { innerPadding ->
+
         BottomNavigation(innerPadding = innerPadding, bottomNavController = bottomNavController)
     }
 }
@@ -81,11 +81,13 @@ fun BottomNavigation(
     modifier: Modifier = Modifier,
     bottomNavController: NavHostController
 ) {
+
     NavHost(
         navController = bottomNavController,
         startDestination = NavGraphs.MathQuestion.route,
         modifier = modifier.padding(innerPadding)
     ) {
+
         composable(route = NavGraphs.MathQuestion.route) {
             MathQuestionScreenNavigation()
         }
