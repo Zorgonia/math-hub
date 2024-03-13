@@ -1,4 +1,4 @@
-package com.kyang.mathhub.ui.screen
+package com.kyang.mathhub.ui.screen.math
 
 import android.view.KeyEvent
 import androidx.compose.foundation.layout.Arrangement
