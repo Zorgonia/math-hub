@@ -1,35 +1,56 @@
-package com.kyang.mathhub.ui.screen
+package com.kyang.mathhub.ui.screen.math
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.kyang.mathhub.R
-import com.kyang.mathhub.ui.components.NumberInputTextField
+import com.kyang.mathhub.data.MathQuestionUiState
+import com.kyang.mathhub.navigation.MathAppScreen
 import com.kyang.mathhub.ui.components.QuestionSettingCheckOption
 import com.kyang.mathhub.ui.components.QuestionSettingNumberField
 import com.kyang.mathhub.ui.theme.MathHubTheme
-import kotlin.math.max
+import com.kyang.mathhub.ui.viewmodel.MathQuestionViewModel
 
+@Composable
+fun OptionsPage(
+    uiState: MathQuestionUiState,
+    mathQuestionViewModel: MathQuestionViewModel,
+    mathQuestionNavController: NavHostController
+) {
+    OptionsScreen(
+        onMinChange = { mathQuestionViewModel.setMin(it) },
+        onMaxChange = { mathQuestionViewModel.setMax(it) },
+        minVal = uiState.minNum,
+        maxVal = uiState.maxNum,
+        maxRound = uiState.maxRound.toString(),
+        onRoundChange = { mathQuestionViewModel.setMaxRound(it) },
+        endless = uiState.endless,
+        onEndlessChange = { mathQuestionViewModel.setEndless(it) },
+        onNextClicked = {
+            mathQuestionViewModel.resetGame()
+            mathQuestionNavController.navigate(MathAppScreen.MathQuestion.route)
+        },
+        maxTime = uiState.maxTime.toString(),
+        onMaxTimeChange = { mathQuestionViewModel.setMaxTime(it) },
+        timeEnabled = uiState.timeEnabled,
+        timeEnabledChange = { mathQuestionViewModel.setTimeEnabled(it) },
+        modifier = Modifier.fillMaxSize()
+    )
+}
 @Composable
 fun OptionsScreen(
     onMinChange: (String) -> Unit,

@@ -8,6 +8,9 @@
     <string name="question_setting_round_timer">Timer</string>
     <string name="question_setting_use_round_timer">Use Round Timer</string>
 
+    <string name="bottom_bar_math">Math</string>
+    <string name="bottom_bar_tip">Tips</string>
+    <string name="bottom_bar_history">History</string>
 
     <string name="continue_cta">Continue</string>
     <string name="next_cta">Next</string>
@@ -33,4 +36,10 @@
     <string name="game_over_you_scored">You scored: %1$d/%2$d</string>
     <string name="game_over_play_again">Play Again</string>
     <string name="game_over_back_to_settings">Change Settings</string>
+
+    <string name="tip_home_header">Tip Calculator</string>
+    <string name="tip_detail">Tip Detail</string>
+
+    <string name="history_home_header">Math Question History</string>
+    <string name="history_detail">History Detail</string>
 </resources>
