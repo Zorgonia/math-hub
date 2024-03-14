@@ -35,3 +35,38 @@ fun NumberInputTextField(
         modifier = modifier
     )
 }
+
+@Composable
+fun DoubleInputTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onSubmit: () -> Unit,
+    label: @Composable() (() -> Unit)?,
+    decimalPoints: Int,
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        value = value,
+        onValueChange = { str ->
+            if (str.contains('.') && str.length - (str.indexOf('.')) > decimalPoints + 1 ) {
+                return@TextField
+            }
+            if (str.isInt() || str.count{ char -> char == '.'} <= 1) {
+                if (str.length > 1 && str[0] == '0' && str[1] != '.') {
+                    onValueChange(str.substring(1))
+                } else {
+                    onValueChange(str)
+                }
+            }
+        },
+        label = label,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Go,
+            keyboardType = KeyboardType.Number
+        ),
+        keyboardActions = KeyboardActions(onGo = {
+            onSubmit()
+        }),
+        modifier = modifier
+    )
+}

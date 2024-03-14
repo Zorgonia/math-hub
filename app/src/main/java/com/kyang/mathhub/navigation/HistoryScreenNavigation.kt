@@ -8,8 +8,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kyang.mathhub.ui.screen.history.HistoryDetailScreen
 import com.kyang.mathhub.ui.screen.history.HistoryHomeScreen
-import com.kyang.mathhub.ui.screen.tip.TipDetailScreen
-import com.kyang.mathhub.ui.screen.tip.TipHomeScreen
 
 @Composable
 fun HistoryScreenNavigation() {
