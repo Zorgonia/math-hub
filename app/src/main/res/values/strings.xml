@@ -51,4 +51,7 @@
     <string name="tax_percent">Tax Percent</string>
     <string name="add_new_tip">Add New Tip</string>
     <string name="tip_percent_header">Tip Percent</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 </resources>

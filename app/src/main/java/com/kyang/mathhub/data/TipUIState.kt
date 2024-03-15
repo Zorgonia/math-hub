@@ -1,5 +1,7 @@
 package com.kyang.mathhub.data
 
+import java.util.UUID
+
 data class TipUIState(
     val priceWithTax: String = "",
     val tipCalcs: List<TipPrice> = listOf(
@@ -11,12 +13,14 @@ data class TipUIState(
     val priceWithoutTax: String = "",
     val taxPercent: String = "13.0",
     val addingTip: Boolean = false,
-    val newTip: String = ""
+    val newTip: String = "",
+    val editing: Boolean = false,
 )
 
 data class TipPrice(
     val tipPercent: String = "0",
     val nonTaxedCalc: String = "0",
     val taxedCalc: String = "0",
-    val editing: Boolean = false
+    val selected: Boolean = false,
+    val id: UUID = UUID.randomUUID(),
 )

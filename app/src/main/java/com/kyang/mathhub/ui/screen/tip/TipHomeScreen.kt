@@ -3,7 +3,7 @@ package com.kyang.mathhub.ui.screen.tip
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,12 +11,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,8 +28,11 @@ import com.kyang.mathhub.data.TipPrice
 import com.kyang.mathhub.data.TipUIState
 import com.kyang.mathhub.ui.components.DoubleInputTextField
 import com.kyang.mathhub.ui.components.TipListComponent
+import com.kyang.mathhub.ui.theme.Grey
 import com.kyang.mathhub.ui.theme.MathHubTheme
+import com.kyang.mathhub.ui.theme.Red
 import com.kyang.mathhub.ui.viewmodel.TipViewModel
+import java.util.UUID
 
 @Composable
 fun TipHomePage(
@@ -48,7 +53,12 @@ fun TipHomePage(
         isAddingNewTip = uiState.addingTip,
         newTip = uiState.newTip,
         onSetNewTip = { tipViewModel.setNewTip(it) },
-        finishNewTip = { tipViewModel.finishAddingNewTip() }
+        finishNewTip = { tipViewModel.finishAddingNewTip() },
+        onConfirmEdits = { tipViewModel.deleteItems() },
+        onCancelEdits = { tipViewModel.cancelDelete() },
+        editing = uiState.editing,
+        onEditGesture = { tipViewModel.startEditing(it) },
+        onCheckChange = { tipViewModel.updateSelected(it) }
     )
 }
 
@@ -66,6 +76,11 @@ private fun TipHomeScreen(
     newTip: String,
     onSetNewTip: (String) -> Unit,
     finishNewTip: () -> Unit,
+    editing: Boolean,
+    onEditGesture: (UUID) -> Unit,
+    onCheckChange: (UUID) -> Unit,
+    onCancelEdits: () -> Unit,
+    onConfirmEdits: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -105,15 +120,18 @@ private fun TipHomeScreen(
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        LazyColumn(
-            modifier = Modifier.fillMaxHeight(0.5f)
-        ) {
-            items(tipCalculations) { item ->
+        LazyColumn() {
+            items(tipCalculations, key = {it.id}) { item ->
                 TipListComponent(
                     tipPercent = item.tipPercent,
                     withTaxPrice = item.taxedCalc,
                     withoutTaxPrice = item.nonTaxedCalc,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    id = item.id,
+                    onEditGesture = onEditGesture,
+                    editing = editing,
+                    selected = item.selected,
+                    onCheckChange = onCheckChange,
                 )
             }
         }
@@ -138,9 +156,38 @@ private fun TipHomeScreen(
                 }
             }
         }
-        if (!isAddingNewTip) {
+        if (!isAddingNewTip && !editing) {
             Button(onClick = { onAddNewTip(true) }) {
                 Text(text = stringResource(id = R.string.add_new_tip))
+            }
+        }
+        if (editing) {
+            Row(
+
+            ) {
+                Button(
+                    onClick = onCancelEdits,
+                    colors = ButtonColors(
+                        containerColor = Grey,
+                        contentColor = Color.White,
+                        disabledContainerColor = Grey,
+                        disabledContentColor = Color.Black
+                    )
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+                Spacer(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp))
+                Button(
+                    onClick = onConfirmEdits,
+                    colors = ButtonColors(
+                        containerColor = Red,
+                        contentColor = Color.White,
+                        disabledContainerColor = Grey,
+                        disabledContentColor = Color.Black
+                    )
+                ) {
+                    Text(text = stringResource(id = R.string.delete))
+                }
             }
         }
     }
@@ -163,6 +210,11 @@ private fun TipHomeScreenPreview() {
             onSetNewTip = {},
             onAddNewTip = {},
             finishNewTip = {},
+            onCheckChange = {},
+            onEditGesture = {},
+            onCancelEdits = {},
+            onConfirmEdits = {},
+            editing = true,
             modifier = Modifier.fillMaxSize()
         )
     }

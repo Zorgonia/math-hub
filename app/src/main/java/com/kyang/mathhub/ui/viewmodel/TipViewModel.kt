@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -96,6 +97,61 @@ class TipViewModel @Inject constructor(
         }
     }
 
+    fun startEditing(id: UUID) {
+        _uiState.update { curr ->
+            curr.copy(
+                editing = true,
+                addingTip = false,
+                tipCalcs = curr.tipCalcs.map { tipPrice ->
+                    if (tipPrice.id == id) {
+                        tipPrice.copy(selected = true)
+                    } else {
+                        tipPrice
+                    }
+                }
+            )
+        }
+    }
+
+    fun updateSelected(id: UUID) {
+        _uiState.update { curr ->
+            curr.copy(
+                tipCalcs = curr.tipCalcs.map { tipPrice ->
+                    if (tipPrice.id == id) {
+                        tipPrice.copy(selected = !tipPrice.selected)
+                    } else {
+                        tipPrice
+                    }
+                }
+            )
+        }
+    }
+
+    fun deleteItems() {
+        _uiState.update { curr ->
+            val updated = curr.tipCalcs.toMutableList()
+            updated.removeIf { it.selected }
+            curr.copy(
+                editing = false,
+                tipCalcs = updated
+            )
+        }
+    }
+    fun cancelDelete() {
+        _uiState.update { curr ->
+            curr.copy(
+                editing = false,
+                tipCalcs = curr.tipCalcs.map { tipPrice ->
+                    if (tipPrice.selected) {
+                        tipPrice.copy(selected = false)
+                    } else {
+                        tipPrice
+                    }
+                }
+            )
+        }
+    }
+
     fun finishAddingNewTip() {
         if (!uiState.value.newTip.isDouble()) return
         _uiState.update { curr ->
@@ -164,7 +220,9 @@ class TipViewModel @Inject constructor(
                             tipPercent = it.tipPercent.toDouble(),
                             taxPercent = taxPercent,
                             isTaxed = true
-                        ).toPriceString()
+                        ).toPriceString(),
+                        id = it.id,
+                        selected = it.selected
                     )
                 },
                 taxPercent = updatedTax ?: curr.taxPercent.ifEmpty { "0" }
