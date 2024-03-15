@@ -49,4 +49,6 @@
     <string name="taxed_amount">Taxed Subtotal</string>
     <string name="base_amount">Base Price</string>
     <string name="tax_percent">Tax Percent</string>
+    <string name="add_new_tip">Add New Tip</string>
+    <string name="tip_percent_header">Tip Percent</string>
 </resources>

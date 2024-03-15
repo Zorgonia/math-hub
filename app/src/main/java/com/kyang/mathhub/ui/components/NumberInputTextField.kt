@@ -62,7 +62,7 @@ fun DoubleInputTextField(
         label = label,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Go,
-            keyboardType = KeyboardType.Number
+            keyboardType = KeyboardType.Decimal
         ),
         keyboardActions = KeyboardActions(onGo = {
             onSubmit()

@@ -10,10 +10,13 @@ data class TipUIState(
     ),
     val priceWithoutTax: String = "",
     val taxPercent: String = "13.0",
+    val addingTip: Boolean = false,
+    val newTip: String = ""
 )
 
 data class TipPrice(
     val tipPercent: String = "0",
     val nonTaxedCalc: String = "0",
-    val taxedCalc: String = "0"
+    val taxedCalc: String = "0",
+    val editing: Boolean = false
 )

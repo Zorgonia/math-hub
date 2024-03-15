@@ -3,6 +3,7 @@ package com.kyang.mathhub.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,14 +25,14 @@ fun TipListComponent(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = stringResource(id = R.string.tip_percent, tipPercent),
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 24.sp),
-            modifier = Modifier.padding(end = 16.dp)
+//            modifier = Modifier.padding(end = 16.dp)
         )
 
         Column(

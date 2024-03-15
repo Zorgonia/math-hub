@@ -1,6 +1,5 @@
 package com.kyang.mathhub.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.kyang.mathhub.data.TipPrice
 import com.kyang.mathhub.data.TipUIState
@@ -79,13 +78,67 @@ class TipViewModel @Inject constructor(
         }
     }
 
+    fun setAddingTip(adding: Boolean) {
+        _uiState.update { curr ->
+            curr.copy(
+                addingTip = adding
+            )
+        }
+    }
+
+    fun setNewTip(tip: String) {
+        if (tip.isDouble()) {
+            _uiState.update { curr ->
+                curr.copy(
+                    newTip = tip
+                )
+            }
+        }
+    }
+
+    fun finishAddingNewTip() {
+        if (!uiState.value.newTip.isDouble()) return
+        _uiState.update { curr ->
+            val temp = if (curr.tipCalcs.map { it.tipPercent }.contains(curr.newTip)) {
+                listOf()
+            } else if (uiState.value.priceWithoutTax.isEmpty()) {
+                listOf(TipPrice(tipPercent = curr.newTip, nonTaxedCalc = "", taxedCalc = ""))
+            } else {
+                listOf(
+                    TipPrice(
+                        tipPercent = curr.newTip,
+                        nonTaxedCalc = tipRepository.getFinalAmount(
+                            price = curr.priceWithoutTax.toDouble(),
+                            tipPercent = curr.newTip.toDouble(),
+                            taxPercent = curr.taxPercent.toDouble(),
+                            isTaxed = false
+                        ).toPriceString(),
+                        taxedCalc = tipRepository.getFinalAmount(
+                            price = curr.priceWithTax.toDouble(),
+                            tipPercent = curr.newTip.toDouble(),
+                            taxPercent = curr.taxPercent.toDouble(),
+                            isTaxed = true
+                        ).toPriceString()
+                    )
+                )
+            }
+
+            curr.copy(
+                tipCalcs = (curr.tipCalcs + temp).sortedBy { it.tipPercent.toDouble() },
+                newTip = "",
+                addingTip = false
+            )
+        }
+    }
+
     private fun calculateNewPrices(
         price: String,
         isTaxed: Boolean,
         updatedTax: String? = null
     ) {
         _uiState.update { curr ->
-            val taxPercent = updatedTax?.toDouble() ?: if (curr.taxPercent.isEmpty()) 0.0 else curr.taxPercent.toDouble()
+            val taxPercent = updatedTax?.toDouble()
+                ?: if (curr.taxPercent.isEmpty()) 0.0 else curr.taxPercent.toDouble()
             val nonTaxed = if (isTaxed) tipRepository.getUntaxedAmount(
                 price.toDouble(),
                 taxPercent
@@ -94,7 +147,6 @@ class TipViewModel @Inject constructor(
                 price.toDouble(),
                 taxPercent
             ).toPriceString()
-            Log.d("test", "$nonTaxed $taxed")
             curr.copy(
                 priceWithTax = taxed,
                 priceWithoutTax = nonTaxed,
