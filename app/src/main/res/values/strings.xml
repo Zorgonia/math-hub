@@ -42,4 +42,16 @@
 
     <string name="history_home_header">Math Question History</string>
     <string name="history_detail">History Detail</string>
+
+    <string name="tip_percent">%1$s\%%</string>
+    <string name="tip_price_base">Tip on subtotal: $%1$s</string>
+    <string name="tip_price_taxed">Tip on taxed total: $%1$s</string>
+    <string name="taxed_amount">Taxed Subtotal</string>
+    <string name="base_amount">Base Price</string>
+    <string name="tax_percent">Tax Percent</string>
+    <string name="add_new_tip">Add New Tip</string>
+    <string name="tip_percent_header">Tip Percent</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 </resources>

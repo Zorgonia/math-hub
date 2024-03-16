@@ -84,7 +84,7 @@ fun BottomNavigation(
 
     NavHost(
         navController = bottomNavController,
-        startDestination = NavGraphs.MathQuestion.route,
+        startDestination = NavGraphs.Tip.route,
         modifier = modifier.padding(innerPadding)
     ) {
 

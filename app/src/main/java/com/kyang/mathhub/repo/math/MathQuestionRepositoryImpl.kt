@@ -1,4 +1,4 @@
-package com.kyang.mathhub.repo
+package com.kyang.mathhub.repo.math
 
 import javax.inject.Inject
 import kotlin.math.min
