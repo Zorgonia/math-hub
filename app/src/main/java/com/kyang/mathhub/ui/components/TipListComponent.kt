@@ -36,7 +36,6 @@ fun TipListComponent(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp)
             .pointerInput(Unit) {
                 detectTapGestures(onLongPress = {
                     onEditGesture(id)

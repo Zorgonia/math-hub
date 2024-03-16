@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -83,31 +85,43 @@ private fun TipHomeScreen(
     onConfirmEdits: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-    ) {
-        DoubleInputTextField(
-            value = basePrice,
-            onValueChange = onBasePriceChange,
-            onSubmit = { },
-            label = {
-                Text(text = stringResource(id = R.string.base_amount))
-            },
-            decimalPoints = 2,
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
 
-        DoubleInputTextField(
-            value = taxedPrice,
-            onValueChange = onTaxedPriceChange,
-            onSubmit = { },
-            label = {
-                Text(text = stringResource(id = R.string.taxed_amount))
-            },
-            decimalPoints = 2,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(vertical = 16.dp)
+        ) {
+            DoubleInputTextField(
+                value = basePrice,
+                onValueChange = onBasePriceChange,
+                onSubmit = { },
+                label = {
+                    Text(text = stringResource(id = R.string.base_amount))
+                },
+                decimalPoints = 2,
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 8.dp)
+                    .weight(1f)
+            )
+
+            DoubleInputTextField(
+                value = taxedPrice,
+                onValueChange = onTaxedPriceChange,
+                onSubmit = { },
+                label = {
+                    Text(text = stringResource(id = R.string.taxed_amount))
+                },
+                decimalPoints = 2,
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 16.dp)
+                    .weight(1f)
+            )
+        }
+
 
         DoubleInputTextField(
             value = taxPercent,
@@ -120,8 +134,13 @@ private fun TipHomeScreen(
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        LazyColumn() {
-            items(tipCalculations, key = {it.id}) { item ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxHeight(0.85f)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            items(tipCalculations, key = { it.id }) { item ->
                 TipListComponent(
                     tipPercent = item.tipPercent,
                     withTaxPrice = item.taxedCalc,
@@ -157,14 +176,15 @@ private fun TipHomeScreen(
             }
         }
         if (!isAddingNewTip && !editing) {
-            Button(onClick = { onAddNewTip(true) }) {
+            Button(
+                onClick = { onAddNewTip(true) },
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
                 Text(text = stringResource(id = R.string.add_new_tip))
             }
         }
         if (editing) {
-            Row(
-
-            ) {
+            Row(modifier = Modifier.padding(top = 8.dp)) {
                 Button(
                     onClick = onCancelEdits,
                     colors = ButtonColors(
@@ -190,6 +210,7 @@ private fun TipHomeScreen(
                 }
             }
         }
+
     }
 }
 
