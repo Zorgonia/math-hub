@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.kyang.mathhub"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.kyang.mathhub"
-        minSdk = 27
-        targetSdk = 34
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -23,38 +23,23 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-        }
+    kotlin {
+        jvmToolchain(libs.versions.jvm.toolchain.get().toInt())
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        kotlinCompilerExtensionVersion = libs.versions.compose.kotlinCompilerExtensionVersion.get()
     }
 }
 
 dependencies {
-
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.viewmodel.base)
-    implementation(libs.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation(project(":theme"))
+    implementation(project(":navigation"))
     ksp(libs.lifecycle.kapt)
 
     implementation(libs.activity.compose)
@@ -67,7 +52,6 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
-
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

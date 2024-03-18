@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bottom_bar_math">Math</string>
+    <string name="bottom_bar_tip">Tips</string>
+    <string name="bottom_bar_history">History</string>
+</resources>
