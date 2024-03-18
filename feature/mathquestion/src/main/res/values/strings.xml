@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MathHub</string>
+    <string name="question_setting_min_num">Min #</string>
+    <string name="question_setting_max_num">Max #</string>
+    <string name="question_setting_num_rounds"># of Round</string>
+    <string name="question_setting_endless">Endless Mode</string>
+    <string name="question_setting_round_timer">Timer</string>
+    <string name="question_setting_use_round_timer">Use Round Timer</string>
+
+    <string name="bottom_bar_math">Math</string>
+    <string name="bottom_bar_tip">Tips</string>
+    <string name="bottom_bar_history">History</string>
+
+    <string name="continue_cta">Continue</string>
+    <string name="next_cta">Next</string>
+    <string name="start_cta">Start</string>
+    <string name="retry_cta">Retry</string>
+    <string name="submit_cta">Submit</string>
+    <string name="question_correct">Correct!</string>
+    <string name="question_incorrect">Incorrect</string>
+    <string name="question_answer_is">The answer was %1$d</string>
+
+    <string name="question_multiplication">%1$d x %2$d</string>
+    <string name="question_multiplication_answer">%1$d x %2$d = %3$s</string>
+    <string name="question_equals">=</string>
+    <string name="question_answer">Answer</string>
+    <string name="question_your_answer">Your answer: %1$s</string>
+    <string name="question_score">Total Score: %1$d</string>
+    <string name="question_time_left">Time Left: %1$d</string>
+    <string name="question_score_round">Round score: %1$d</string>
+    <string name="question_round_out_of">Round: %1$d/%2$d</string>
+    <string name="question_round_endless">Rounds so far: %1$d</string>
+
+    <string name="game_over">Game Over!</string>
+    <string name="game_over_you_scored">You scored: %1$d/%2$d</string>
+    <string name="game_over_play_again">Play Again</string>
+    <string name="game_over_back_to_settings">Change Settings</string>
+</resources>
