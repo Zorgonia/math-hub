@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.kyang.mathhub.feature.mathquestion.R
+import com.kyang.mathhub.mathquestion.model.MathQuestionUiState
 import com.kyang.mathhub.mathquestion.navigation.MathAppScreen
 import com.kyang.mathhub.mathquestion.ui.component.QuestionSettingCheckOption
 import com.kyang.mathhub.mathquestion.ui.component.QuestionSettingNumberField
@@ -26,7 +27,7 @@ import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun OptionsPage(
-    uiState: com.kyang.mathhub.mathquestion.model.MathQuestionUiState,
+    uiState: MathQuestionUiState,
     mathQuestionViewModel: MathQuestionViewModel,
     mathQuestionNavController: NavHostController
 ) {
