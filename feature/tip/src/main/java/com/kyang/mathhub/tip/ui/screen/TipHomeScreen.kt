@@ -27,11 +27,13 @@ import androidx.navigation.NavHostController
 import com.kyang.mathhub.feature.tip.R
 import com.kyang.mathhub.theme.Black
 import com.kyang.mathhub.theme.Grey
+import com.kyang.mathhub.theme.MathHubTheme
 import com.kyang.mathhub.theme.Red
 import com.kyang.mathhub.theme.White
 import com.kyang.mathhub.tip.model.TipPrice
 import com.kyang.mathhub.tip.model.TipUIState
 import com.kyang.mathhub.tip.ui.component.DoubleInputTextField
+import com.kyang.mathhub.tip.ui.component.TipListComponent
 import com.kyang.mathhub.tip.viewmodel.TipViewModel
 import java.util.UUID
 
@@ -140,7 +142,7 @@ private fun TipHomeScreen(
                 .padding(horizontal = 16.dp)
         ) {
             items(tipCalculations, key = { it.id }) { item ->
-                com.kyang.mathhub.tip.ui.component.TipListComponent(
+                TipListComponent(
                     tipPercent = item.tipPercent,
                     withTaxPrice = item.taxedCalc,
                     withoutTaxPrice = item.nonTaxedCalc,
@@ -216,7 +218,7 @@ private fun TipHomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun TipHomeScreenPreview() {
-    com.kyang.mathhub.theme.MathHubTheme {
+    MathHubTheme {
         TipHomeScreen(
             basePrice = "1",
             taxPercent = "13.0",

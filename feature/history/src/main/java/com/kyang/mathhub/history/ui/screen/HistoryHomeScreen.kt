@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kyang.mathhub.feature.history.R
+import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun HistoryHomeScreen(
@@ -30,7 +31,7 @@ fun HistoryHomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HistoryHomeScreenPreview() {
-    com.kyang.mathhub.theme.MathHubTheme {
+    MathHubTheme {
         HistoryHomeScreen(
             onClick = {},
             modifier = Modifier.fillMaxSize()

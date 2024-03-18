@@ -16,8 +16,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.kyang.mathhub.history.navigation.HistoryScreenNavigation
+import com.kyang.mathhub.mathquestion.navigation.MathQuestionScreenNavigation
 import com.kyang.mathhub.navigation.data.BottomNavItem
 import com.kyang.mathhub.navigation.ui.BottomBar
+import com.kyang.mathhub.tip.navigation.TipScreenNavigation
 
 private enum class NavGraphs(val route: String) {
     MathQuestion("question"),
@@ -85,13 +88,13 @@ fun BottomNavigation(
     ) {
 
         composable(route = NavGraphs.MathQuestion.route) {
-            com.kyang.mathhub.mathquestion.navigation.MathQuestionScreenNavigation()
+            MathQuestionScreenNavigation()
         }
         composable(route = NavGraphs.Tip.route) {
-            com.kyang.mathhub.tip.navigation.TipScreenNavigation()
+            TipScreenNavigation()
         }
         composable(route = NavGraphs.MathHistory.route) {
-            com.kyang.mathhub.history.navigation.HistoryScreenNavigation()
+            HistoryScreenNavigation()
         }
     }
 }

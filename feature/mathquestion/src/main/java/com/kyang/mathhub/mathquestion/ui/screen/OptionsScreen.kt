@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.kyang.mathhub.feature.mathquestion.R
 import com.kyang.mathhub.mathquestion.navigation.MathAppScreen
+import com.kyang.mathhub.mathquestion.ui.component.QuestionSettingCheckOption
+import com.kyang.mathhub.mathquestion.ui.component.QuestionSettingNumberField
 import com.kyang.mathhub.mathquestion.viewmodel.MathQuestionViewModel
 import com.kyang.mathhub.theme.MathHubTheme
 
@@ -77,13 +79,13 @@ fun OptionsScreen(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
 
-            com.kyang.mathhub.mathquestion.ui.component.QuestionSettingNumberField(
+            QuestionSettingNumberField(
                 title = R.string.question_setting_min_num,
                 value = minVal,
                 onValueChange = onMinChange
             )
 
-            com.kyang.mathhub.mathquestion.ui.component.QuestionSettingNumberField(
+            QuestionSettingNumberField(
                 title = R.string.question_setting_max_num,
                 value = maxVal,
                 onValueChange = onMaxChange
@@ -91,7 +93,7 @@ fun OptionsScreen(
 
         }
 
-        com.kyang.mathhub.mathquestion.ui.component.QuestionSettingCheckOption(
+        QuestionSettingCheckOption(
             optionTitle = R.string.question_setting_endless,
             checked = endless,
             onCheckChange = onEndlessChange,
@@ -102,7 +104,7 @@ fun OptionsScreen(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        com.kyang.mathhub.mathquestion.ui.component.QuestionSettingCheckOption(
+        QuestionSettingCheckOption(
             optionTitle = R.string.question_setting_use_round_timer,
             checked = timeEnabled,
             onCheckChange = timeEnabledChange,

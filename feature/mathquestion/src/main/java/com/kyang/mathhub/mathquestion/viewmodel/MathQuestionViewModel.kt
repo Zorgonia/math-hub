@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kyang.mathhub.domain.repo.math.MathQuestionRepository
+import com.kyang.mathhub.mathquestion.model.MathQuestionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -19,8 +20,8 @@ class MathQuestionViewModel @Inject constructor(
     private val mathQuestionRepository: MathQuestionRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(com.kyang.mathhub.mathquestion.model.MathQuestionUiState())
-    val uiState: StateFlow<com.kyang.mathhub.mathquestion.model.MathQuestionUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(MathQuestionUiState())
+    val uiState: StateFlow<MathQuestionUiState> = _uiState.asStateFlow()
 
     private var timerJob: Job? = null
 

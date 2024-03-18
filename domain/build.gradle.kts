@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.kyang.mathhub.mathquestion"
+    namespace = "com.kyang.mathhub.domain"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

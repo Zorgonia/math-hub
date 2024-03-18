@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.kyang.mathhub.feature.mathquestion.R
 import com.kyang.mathhub.mathquestion.navigation.MathAppScreen
+import com.kyang.mathhub.mathquestion.ui.component.NumberInputTextField
 import com.kyang.mathhub.mathquestion.viewmodel.MathQuestionViewModel
 import com.kyang.mathhub.theme.MathHubTheme
 
@@ -77,7 +78,7 @@ private fun QuestionScreen(
 
         Text(text = stringResource(id = R.string.question_equals))
 
-        com.kyang.mathhub.mathquestion.ui.component.NumberInputTextField(value = answer,
+        NumberInputTextField(value = answer,
             onValueChange = onAnswerChange,
             onSubmit = onSubmit,
             label = {

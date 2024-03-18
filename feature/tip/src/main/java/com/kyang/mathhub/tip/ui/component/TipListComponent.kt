@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kyang.mathhub.feature.tip.R
+import com.kyang.mathhub.theme.MathHubTheme
 import java.util.UUID
 
 @Composable
@@ -72,7 +73,7 @@ fun TipListComponent(
 @Composable
 @Preview(showBackground = true)
 private fun TipListComponentPreview() {
-    com.kyang.mathhub.theme.MathHubTheme {
+    MathHubTheme {
         TipListComponent(
             tipPercent = "15",
             withoutTaxPrice = "123.24",

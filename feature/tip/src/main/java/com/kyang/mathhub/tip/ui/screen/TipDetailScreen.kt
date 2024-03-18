@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kyang.mathhub.feature.tip.R
+import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun TipDetailScreen(
@@ -25,7 +26,7 @@ fun TipDetailScreen(
 @Preview(showBackground = true)
 @Composable
 private fun TipDetailScreenPreview() {
-    com.kyang.mathhub.theme.MathHubTheme {
+    MathHubTheme {
         TipDetailScreen(
             modifier = Modifier.fillMaxSize()
         )
