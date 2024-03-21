@@ -43,8 +43,7 @@ fun QuestionPage(
         onSubmit = {
             mathQuestionViewModel.answerQuestion()
         },
-        currTime = uiState.currTime,
-        maxTime = uiState.maxTime,
+        progress = uiState.roundProgress,
         timeEnabled = uiState.timeEnabled,
         modifier = Modifier.fillMaxSize()
     )
@@ -60,8 +59,7 @@ private fun QuestionScreen(
     second: Int,
     answer: String,
     onAnswerChange: (String) -> Unit,
-    currTime: Int,
-    maxTime: Int,
+    progress: Float,
     timeEnabled: Boolean,
     onSubmit: () -> Unit,
     modifier: Modifier = Modifier
@@ -107,7 +105,7 @@ private fun QuestionScreen(
 
         if (timeEnabled) {
             CircularProgressIndicator(
-                progress = { (currTime.toFloat() / maxTime) },
+                progress = { progress },
                 modifier = Modifier.padding(top = 16.dp),
                 color = MaterialTheme.colorScheme.secondary,
                 trackColor = MaterialTheme.colorScheme.surfaceVariant
@@ -128,8 +126,7 @@ private fun QuestionScreenPreview() {
         QuestionScreen(
             first = 1,
             second = 1,
-            currTime = 3,
-            maxTime = 10,
+            progress = 1f,
             timeEnabled = false,
             onAnswerChange = {},
             onSubmit = {},

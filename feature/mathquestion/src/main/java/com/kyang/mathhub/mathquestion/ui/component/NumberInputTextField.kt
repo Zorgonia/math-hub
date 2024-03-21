@@ -20,7 +20,7 @@ fun NumberInputTextField(
     TextField(
         value = value,
         onValueChange = {
-            if (it.isInt()) {
+            if (it.isEmpty() || it.isInt()) {
                 onValueChange(it)
             }
         },

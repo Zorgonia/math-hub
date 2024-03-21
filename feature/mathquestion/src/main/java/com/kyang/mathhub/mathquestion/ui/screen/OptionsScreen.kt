@@ -36,7 +36,7 @@ fun OptionsPage(
         onMaxChange = { mathQuestionViewModel.setMax(it) },
         minVal = uiState.minNum,
         maxVal = uiState.maxNum,
-        maxRound = uiState.maxRound.toString(),
+        maxRound = uiState.maxRound,
         onRoundChange = { mathQuestionViewModel.setMaxRound(it) },
         endless = uiState.endless,
         onEndlessChange = { mathQuestionViewModel.setEndless(it) },
@@ -44,11 +44,12 @@ fun OptionsPage(
             mathQuestionViewModel.resetGame()
             mathQuestionNavController.navigate(MathAppScreen.MathQuestion.route)
         },
-        maxTime = uiState.maxTime.toString(),
+        maxTime = uiState.maxTime,
         onMaxTimeChange = { mathQuestionViewModel.setMaxTime(it) },
         timeEnabled = uiState.timeEnabled,
         timeEnabledChange = { mathQuestionViewModel.setTimeEnabled(it) },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        readyToPlay = uiState.readyToPlay
     )
 }
 @Composable
@@ -65,6 +66,7 @@ fun OptionsScreen(
     timeEnabledChange: (Boolean) -> Unit,
     minVal: String,
     maxVal: String,
+    readyToPlay: Boolean,
     onNextClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -116,7 +118,7 @@ fun OptionsScreen(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        Button(onClick = onNextClicked) {
+        Button(onClick = onNextClicked, enabled = readyToPlay) {
             Text(
                 stringResource(id = R.string.start_cta),
                 style = MaterialTheme.typography.bodyLarge,
@@ -144,6 +146,7 @@ private fun QuestionSettingScreenPreview() {
             onMaxTimeChange = {},
             timeEnabledChange = {},
             timeEnabled = true,
+            readyToPlay = false,
             modifier = Modifier.fillMaxSize()
         )
     }

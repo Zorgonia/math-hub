@@ -12,9 +12,11 @@ data class MathQuestionUiState(
     val roundScore: Int = 0,
     val round: Int = 0,
     val currTime: Int = 0,
-    val maxTime: Int = 5,
-    val maxRound: Int = 10,
+    val maxTime: String = "5",
+    val maxRound: String = "10",
     val timeEnabled: Boolean = true,
     val endless: Boolean = true,
-    val gameOver: Boolean = false
+    val gameOver: Boolean = false,
+    val readyToPlay: Boolean = true,
+    val roundProgress: Float = 1f
 )

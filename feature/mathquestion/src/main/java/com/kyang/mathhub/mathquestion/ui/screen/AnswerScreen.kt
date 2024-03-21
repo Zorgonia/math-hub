@@ -64,7 +64,7 @@ private fun AnswerScreen(
     second: Int,
     score: Int,
     round: Int,
-    maxRound: Int,
+    maxRound: String,
     endless: Boolean,
     correct: Boolean,
     answer: String,
@@ -140,7 +140,7 @@ private fun AnswerScreen(
                     text = stringResource(
                         id = R.string.question_round_out_of,
                         round,
-                        maxRound
+                        maxRound.toInt()
                     ),
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
@@ -173,7 +173,7 @@ private fun AnswerScreenPreview() {
             second = 1,
             score = 0,
             round = 1,
-            maxRound = 10,
+            maxRound = "10",
             endless = true,
             correct = false,
             realAnswer = "1",

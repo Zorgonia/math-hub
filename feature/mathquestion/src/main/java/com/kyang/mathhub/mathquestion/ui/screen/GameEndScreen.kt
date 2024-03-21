@@ -30,7 +30,7 @@ fun GameEndPage(
 ) {
     GameEndScreen(
         score = uiState.score,
-        round = uiState.maxRound,
+        round = uiState.round,
         onReset = {
             mathQuestionViewModel.resetGame()
             mathQuestionNavController.popBackStack()
@@ -42,6 +42,7 @@ fun GameEndPage(
                 inclusive = false
             )
         },
+        timed = uiState.timeEnabled,
         modifier = Modifier.fillMaxSize()
     )
 }
@@ -50,6 +51,7 @@ fun GameEndPage(
 private fun GameEndScreen(
     score: Int,
     round: Int,
+    timed: Boolean,
     onReset: () -> Unit,
     onSettings: () -> Unit,
     modifier: Modifier = Modifier
@@ -69,7 +71,7 @@ private fun GameEndScreen(
             text = stringResource(
                 id = R.string.game_over_you_scored,
                 score,
-                round * 100
+                if (timed) round * 100 else round
             ),
             modifier = Modifier.padding(16.dp)
         )
@@ -95,6 +97,7 @@ private fun GameEndScreenPreview() {
             onSettings = {},
             score = 0,
             round = 10,
+            timed  = false,
             modifier = Modifier.fillMaxSize()
         )
     }
