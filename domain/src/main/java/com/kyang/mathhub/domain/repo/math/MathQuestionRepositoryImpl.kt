@@ -1,32 +1,39 @@
 package com.kyang.mathhub.domain.repo.math
 
-import com.kyang.mathhub.mathquestion.model.MathOperation
-import com.kyang.mathhub.mathquestion.model.MathQuestion
-import com.kyang.mathhub.mathquestion.model.MathQuestionEquation
-import com.kyang.mathhub.mathquestion.model.MathQuestionSimple
+import com.kyang.mathhub.model.MathOperation
+import com.kyang.mathhub.model.MathQuestion
+import com.kyang.mathhub.model.MathQuestionEquation
+import com.kyang.mathhub.model.MathQuestionSimple
 import javax.inject.Inject
 import kotlin.math.min
 import kotlin.random.Random
 
 class MathQuestionRepositoryImpl @Inject constructor(
 
-): MathQuestionRepository {
+) : MathQuestionRepository {
 
-    override fun getNewQuestion(min: Int, max: Int, old: MathQuestion): MathQuestionEquation {
-        var first = Random.nextInt(min, max + 1)
-        var second = Random.nextInt(min, max + 1)
-        var newQuestion = MathQuestionEquation(MathQuestionSimple(first), MathQuestionSimple(second), MathOperation.MULTIPLY)
+    override fun getNewQuestion(min: Int, max: Int, old: List<MathQuestion>): MathQuestionEquation {
+        var newQuestion = generateQuestion(min, max)
         if (max - min < 3) {
             return newQuestion
         }
         var i = 0
-        while (i < 10 && newQuestion == old) {
-            first = Random.nextInt(min, max + 1)
-            second = Random.nextInt(min, max + 1)
-            newQuestion = MathQuestionEquation(MathQuestionSimple(first), MathQuestionSimple(second), MathOperation.MULTIPLY)
+        while (i < 10 && old.any { it == newQuestion }) {
+            newQuestion = generateQuestion(min, max)
             i += 1
         }
+        if (newQuestion == old.lastOrNull()) {
+            newQuestion = generateQuestion(min, max)
+        }
         return newQuestion
+    }
+
+    private fun generateQuestion(min: Int, max: Int): MathQuestionEquation {
+        return MathQuestionEquation(
+            MathQuestionSimple(Random.nextInt(min, max + 1)),
+            MathQuestionSimple(Random.nextInt(min, max + 1)),
+            MathOperation.MULTIPLY
+        )
     }
 
     override fun getAnswer(equation: MathQuestion): Int {

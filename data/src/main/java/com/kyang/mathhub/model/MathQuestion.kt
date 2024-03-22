@@ -1,4 +1,4 @@
-package com.kyang.mathhub.mathquestion.model
+package com.kyang.mathhub.model
 
 import kotlin.math.pow
 
@@ -66,6 +66,10 @@ class MathQuestionEquation(
         return result
     }
 
+    override fun toString(): String {
+        return "${this.first} ${this.operation} ${this.second}"
+    }
+
 }
 
 class MathQuestionSimple(val value: Int) : MathQuestion() {
@@ -75,6 +79,14 @@ class MathQuestionSimple(val value: Int) : MathQuestion() {
 
     override fun toString(): String {
         return "$value"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is MathQuestionSimple && this.value == other.value
+    }
+
+    override fun hashCode(): Int {
+        return value
     }
 
 }

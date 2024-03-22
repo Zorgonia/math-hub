@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kyang.mathhub.domain.repo.math.MathQuestionRepository
 import com.kyang.mathhub.mathquestion.helper.isInt
-import com.kyang.mathhub.mathquestion.model.MathOperation
-import com.kyang.mathhub.mathquestion.model.MathQuestionEquation
-import com.kyang.mathhub.mathquestion.model.MathQuestionSimple
 import com.kyang.mathhub.mathquestion.model.MathQuestionUiState
+import com.kyang.mathhub.model.MathQuestionEquation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -29,8 +27,8 @@ class MathQuestionViewModel @Inject constructor(
 
     private var timerJob: Job? = null
 
-    private var lastQuestion: MathQuestionEquation =
-        MathQuestionEquation(MathQuestionSimple(-1), MathQuestionSimple(-1), MathOperation.MULTIPLY)
+    private var questionHistory: MutableList<MathQuestionEquation> =
+        mutableListOf()
 
     fun setMin(min: String) {
         if (min.isEmpty() || min.isInt()) {
@@ -94,14 +92,10 @@ class MathQuestionViewModel @Inject constructor(
 
     fun nextQuestion() {
         _uiState.update { curr ->
-            lastQuestion = mathQuestionRepository.getNewQuestion(
-                curr.minNum.toInt(),
-                curr.maxNum.toInt(),
-                lastQuestion
-            )
+            val newQuestion = generateNewQuestion(curr)
             curr.copy(
-                first = lastQuestion.first.calculate(),
-                second = lastQuestion.second.calculate(),
+                first = newQuestion.first.calculate(),
+                second = newQuestion.second.calculate(),
                 answer = "",
                 submitted = false,
                 correct = false,
@@ -115,15 +109,12 @@ class MathQuestionViewModel @Inject constructor(
     }
 
     fun resetGame() {
+        questionHistory.clear()
         _uiState.update { curr ->
-            lastQuestion = mathQuestionRepository.getNewQuestion(
-                curr.minNum.toInt(),
-                curr.maxNum.toInt(),
-                lastQuestion
-            )
+            val newQuestion = generateNewQuestion(curr)
             curr.copy(
-                first = lastQuestion.first.calculate(),
-                second = lastQuestion.second.calculate(),
+                first = newQuestion.first.calculate(),
+                second = newQuestion.second.calculate(),
                 answer = "",
                 submitted = false,
                 correct = false,
@@ -136,6 +127,17 @@ class MathQuestionViewModel @Inject constructor(
             )
         }
         startTimer()
+    }
+
+    private fun generateNewQuestion(state: MathQuestionUiState): MathQuestionEquation {
+        val newQuestion = mathQuestionRepository.getNewQuestion(
+            state.minNum.toInt(),
+            state.maxNum.toInt(),
+            questionHistory
+        )
+        questionHistory.add(newQuestion)
+
+        return newQuestion
     }
 
     fun getRealAnswer(): String = "${_uiState.value.first * _uiState.value.second}"
@@ -159,7 +161,7 @@ class MathQuestionViewModel @Inject constructor(
                     timed = curr.timeEnabled
                 )
                 if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(
-                        lastQuestion
+                        questionHistory.last()
                     )
                 ) {
                     curr.copy(
