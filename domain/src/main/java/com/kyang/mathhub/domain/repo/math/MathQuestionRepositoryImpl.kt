@@ -1,5 +1,9 @@
 package com.kyang.mathhub.domain.repo.math
 
+import com.kyang.mathhub.mathquestion.model.MathOperation
+import com.kyang.mathhub.mathquestion.model.MathQuestion
+import com.kyang.mathhub.mathquestion.model.MathQuestionEquation
+import com.kyang.mathhub.mathquestion.model.MathQuestionSimple
 import javax.inject.Inject
 import kotlin.math.min
 import kotlin.random.Random
@@ -8,21 +12,25 @@ class MathQuestionRepositoryImpl @Inject constructor(
 
 ): MathQuestionRepository {
 
-    override fun getNewQuestion(min: Int, max: Int, old: Pair<Int, Int>): Pair<Int, Int> {
+    override fun getNewQuestion(min: Int, max: Int, old: MathQuestion): MathQuestionEquation {
         var first = Random.nextInt(min, max + 1)
         var second = Random.nextInt(min, max + 1)
+        var newQuestion = MathQuestionEquation(MathQuestionSimple(first), MathQuestionSimple(second), MathOperation.MULTIPLY)
         if (max - min < 3) {
-            return Pair(first, second)
+            return newQuestion
         }
-        while (first == old.first || first == old.second || second == old.first || second == old.second) {
+        var i = 0
+        while (i < 10 && newQuestion == old) {
             first = Random.nextInt(min, max + 1)
             second = Random.nextInt(min, max + 1)
+            newQuestion = MathQuestionEquation(MathQuestionSimple(first), MathQuestionSimple(second), MathOperation.MULTIPLY)
+            i += 1
         }
-        return Pair(first, second)
+        return newQuestion
     }
 
-    override fun getAnswer(nums: Pair<Int, Int>): Int {
-        return nums.first * nums.second
+    override fun getAnswer(equation: MathQuestion): Int {
+        return equation.calculate()
     }
 
     //TODO use cases

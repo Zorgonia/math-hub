@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kyang.mathhub.domain.repo.math.MathQuestionRepository
 import com.kyang.mathhub.mathquestion.helper.isInt
+import com.kyang.mathhub.mathquestion.model.MathOperation
+import com.kyang.mathhub.mathquestion.model.MathQuestionEquation
+import com.kyang.mathhub.mathquestion.model.MathQuestionSimple
 import com.kyang.mathhub.mathquestion.model.MathQuestionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -25,6 +28,9 @@ class MathQuestionViewModel @Inject constructor(
     val uiState: StateFlow<MathQuestionUiState> = _uiState.asStateFlow()
 
     private var timerJob: Job? = null
+
+    private var lastQuestion: MathQuestionEquation =
+        MathQuestionEquation(MathQuestionSimple(-1), MathQuestionSimple(-1), MathOperation.MULTIPLY)
 
     fun setMin(min: String) {
         if (min.isEmpty() || min.isInt()) {
@@ -88,14 +94,14 @@ class MathQuestionViewModel @Inject constructor(
 
     fun nextQuestion() {
         _uiState.update { curr ->
-            val newPair = mathQuestionRepository.getNewQuestion(
+            lastQuestion = mathQuestionRepository.getNewQuestion(
                 curr.minNum.toInt(),
                 curr.maxNum.toInt(),
-                Pair(curr.first, curr.second)
+                lastQuestion
             )
             curr.copy(
-                first = newPair.first,
-                second = newPair.second,
+                first = lastQuestion.first.calculate(),
+                second = lastQuestion.second.calculate(),
                 answer = "",
                 submitted = false,
                 correct = false,
@@ -110,14 +116,14 @@ class MathQuestionViewModel @Inject constructor(
 
     fun resetGame() {
         _uiState.update { curr ->
-            val newPair = mathQuestionRepository.getNewQuestion(
+            lastQuestion = mathQuestionRepository.getNewQuestion(
                 curr.minNum.toInt(),
                 curr.maxNum.toInt(),
-                Pair(curr.first, curr.second)
+                lastQuestion
             )
             curr.copy(
-                first = newPair.first,
-                second = newPair.second,
+                first = lastQuestion.first.calculate(),
+                second = lastQuestion.second.calculate(),
                 answer = "",
                 submitted = false,
                 correct = false,
@@ -153,7 +159,7 @@ class MathQuestionViewModel @Inject constructor(
                     timed = curr.timeEnabled
                 )
                 if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(
-                        Pair(curr.first, curr.second)
+                        lastQuestion
                     )
                 ) {
                     curr.copy(
