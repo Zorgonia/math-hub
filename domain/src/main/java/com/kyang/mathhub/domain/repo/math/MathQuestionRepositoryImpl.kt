@@ -32,7 +32,7 @@ class MathQuestionRepositoryImpl @Inject constructor(
         return MathQuestionEquation(
             MathQuestionSimple(Random.nextInt(min, max + 1)),
             MathQuestionSimple(Random.nextInt(min, max + 1)),
-            MathOperation.MULTIPLY
+            MathOperation.MULTIPLY,
         )
     }
 

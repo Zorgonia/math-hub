@@ -13,11 +13,11 @@ import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun TipDetailScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(text = stringResource(id = R.string.tip_detail))
     }
@@ -28,7 +28,7 @@ fun TipDetailScreen(
 private fun TipDetailScreenPreview() {
     MathHubTheme {
         TipDetailScreen(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

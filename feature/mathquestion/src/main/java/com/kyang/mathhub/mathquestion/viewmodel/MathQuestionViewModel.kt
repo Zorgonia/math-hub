@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MathQuestionViewModel @Inject constructor(
-    private val mathQuestionRepository: MathQuestionRepository
+    private val mathQuestionRepository: MathQuestionRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MathQuestionUiState())
@@ -35,7 +35,7 @@ class MathQuestionViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     minNum = min,
-                    readyToPlay = min.isNotEmpty()
+                    readyToPlay = min.isNotEmpty(),
                 )
             }
         }
@@ -46,7 +46,7 @@ class MathQuestionViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     maxNum = max,
-                    readyToPlay = max.isNotEmpty()
+                    readyToPlay = max.isNotEmpty(),
                 )
             }
         }
@@ -55,7 +55,7 @@ class MathQuestionViewModel @Inject constructor(
     fun setEndless(endless: Boolean) {
         _uiState.update { curr ->
             curr.copy(
-                endless = endless
+                endless = endless,
             )
         }
     }
@@ -63,7 +63,7 @@ class MathQuestionViewModel @Inject constructor(
     fun setTimeEnabled(timeEnabled: Boolean) {
         _uiState.update { curr ->
             curr.copy(
-                timeEnabled = timeEnabled
+                timeEnabled = timeEnabled,
             )
         }
     }
@@ -73,7 +73,7 @@ class MathQuestionViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     maxTime = time,
-                    readyToPlay = !curr.timeEnabled || time.isNotEmpty()
+                    readyToPlay = !curr.timeEnabled || time.isNotEmpty(),
                 )
             }
         }
@@ -84,7 +84,7 @@ class MathQuestionViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     maxRound = maxRound,
-                    readyToPlay = curr.endless || maxRound.isNotEmpty()
+                    readyToPlay = curr.endless || maxRound.isNotEmpty(),
                 )
             }
         }
@@ -102,7 +102,7 @@ class MathQuestionViewModel @Inject constructor(
                 roundScore = 0,
                 round = curr.round + 1,
                 currTime = if (curr.maxTime.isEmpty()) 99 else curr.maxTime.toInt(),
-                roundProgress = 1f
+                roundProgress = 1f,
             )
         }
         startTimer()
@@ -123,7 +123,7 @@ class MathQuestionViewModel @Inject constructor(
                 roundScore = 0,
                 currTime = if (curr.maxTime.isEmpty()) 99 else curr.maxTime.toInt(),
                 gameOver = false,
-                roundProgress = 1f
+                roundProgress = 1f,
             )
         }
         startTimer()
@@ -133,7 +133,7 @@ class MathQuestionViewModel @Inject constructor(
         val newQuestion = mathQuestionRepository.getNewQuestion(
             state.minNum.toInt(),
             state.maxNum.toInt(),
-            questionHistory
+            questionHistory,
         )
         questionHistory.add(newQuestion)
 
@@ -145,23 +145,24 @@ class MathQuestionViewModel @Inject constructor(
     fun updateAnswer(ans: String) {
         _uiState.update { curr ->
             curr.copy(
-                answer = ans
+                answer = ans,
             )
         }
     }
 
     fun answerQuestion() {
-        val gameOver = uiState.value.maxRound.toIntOrNull() == uiState.value.round && !uiState.value.endless
+        val gameOver =
+            uiState.value.maxRound.toIntOrNull() == uiState.value.round && !uiState.value.endless
         resetTimer()
         try {
             _uiState.update { curr ->
                 val roundScore = mathQuestionRepository.getScore(
                     timeRemaining = curr.currTime,
                     maxTime = curr.maxTime.toInt(),
-                    timed = curr.timeEnabled
+                    timed = curr.timeEnabled,
                 )
                 if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(
-                        questionHistory.last()
+                        questionHistory.last(),
                     )
                 ) {
                     curr.copy(
@@ -169,13 +170,13 @@ class MathQuestionViewModel @Inject constructor(
                         correct = true,
                         roundScore = roundScore,
                         score = curr.score + roundScore,
-                        gameOver = gameOver
+                        gameOver = gameOver,
                     )
                 } else {
                     curr.copy(
                         submitted = true,
                         correct = false,
-                        gameOver = gameOver
+                        gameOver = gameOver,
                     )
                 }
 
@@ -185,7 +186,7 @@ class MathQuestionViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     submitted = true,
-                    correct = false
+                    correct = false,
                 )
             }
         }
@@ -199,7 +200,7 @@ class MathQuestionViewModel @Inject constructor(
                 val upd = curr.currTime - 1
                 curr.copy(
                     currTime = upd,
-                    roundProgress = getRoundProgress(upd)
+                    roundProgress = getRoundProgress(upd),
                 )
             }
         }

@@ -26,7 +26,7 @@ import com.kyang.mathhub.theme.MathHubTheme
 fun GameEndPage(
     uiState: MathQuestionUiState,
     mathQuestionViewModel: MathQuestionViewModel,
-    mathQuestionNavController: NavHostController
+    mathQuestionNavController: NavHostController,
 ) {
     GameEndScreen(
         score = uiState.score,
@@ -39,11 +39,11 @@ fun GameEndPage(
         onSettings = {
             mathQuestionNavController.popBackStack(
                 MathAppScreen.MathOptions.route,
-                inclusive = false
+                inclusive = false,
             )
         },
         timed = uiState.timeEnabled,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     )
 }
 
@@ -54,26 +54,26 @@ private fun GameEndScreen(
     timed: Boolean,
     onReset: () -> Unit,
     onSettings: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             stringResource(id = R.string.game_over),
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp),
         )
 
         Text(
             text = stringResource(
                 id = R.string.game_over_you_scored,
                 score,
-                if (timed) round * 100 else round
+                if (timed) round * 100 else round,
             ),
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         )
 
         Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
@@ -97,8 +97,8 @@ private fun GameEndScreenPreview() {
             onSettings = {},
             score = 0,
             round = 10,
-            timed  = false,
-            modifier = Modifier.fillMaxSize()
+            timed = false,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

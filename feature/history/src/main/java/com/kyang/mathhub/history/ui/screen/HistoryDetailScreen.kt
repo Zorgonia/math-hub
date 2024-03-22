@@ -13,11 +13,11 @@ import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun HistoryDetailScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(text = stringResource(id = R.string.history_detail))
     }
@@ -28,7 +28,7 @@ fun HistoryDetailScreen(
 private fun HistoryDetailScreenPreview() {
     MathHubTheme {
         HistoryDetailScreen(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

@@ -22,7 +22,7 @@ fun MathQuestionScreenNavigation() {
 
     NavHost(
         navController = mathQuestionNavController,
-        startDestination = MathAppScreen.MathHome.route
+        startDestination = MathAppScreen.MathHome.route,
     ) {
         composable(route = MathAppScreen.MathHome.route) {
             HomePage(mathQuestionNavController = mathQuestionNavController)
@@ -32,7 +32,7 @@ fun MathQuestionScreenNavigation() {
             OptionsPage(
                 uiState = uiState,
                 mathQuestionViewModel = mathQuestionViewModel,
-                mathQuestionNavController = mathQuestionNavController
+                mathQuestionNavController = mathQuestionNavController,
             )
 
         }
@@ -41,7 +41,7 @@ fun MathQuestionScreenNavigation() {
             QuestionPage(
                 uiState = uiState,
                 mathQuestionViewModel = mathQuestionViewModel,
-                mathQuestionNavController = mathQuestionNavController
+                mathQuestionNavController = mathQuestionNavController,
             )
         }
 
@@ -49,7 +49,7 @@ fun MathQuestionScreenNavigation() {
             AnswerPage(
                 uiState = uiState,
                 mathQuestionViewModel = mathQuestionViewModel,
-                mathQuestionNavController = mathQuestionNavController
+                mathQuestionNavController = mathQuestionNavController,
             )
         }
 
@@ -57,7 +57,7 @@ fun MathQuestionScreenNavigation() {
             GameEndPage(
                 uiState = uiState,
                 mathQuestionViewModel = mathQuestionViewModel,
-                mathQuestionNavController = mathQuestionNavController
+                mathQuestionNavController = mathQuestionNavController,
             )
         }
     }

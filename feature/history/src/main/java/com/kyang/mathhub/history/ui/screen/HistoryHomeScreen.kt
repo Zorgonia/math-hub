@@ -15,11 +15,11 @@ import com.kyang.mathhub.theme.MathHubTheme
 @Composable
 fun HistoryHomeScreen(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(text = stringResource(id = R.string.history_home_header))
         Button(onClick = onClick) {
@@ -34,7 +34,7 @@ private fun HistoryHomeScreenPreview() {
     MathHubTheme {
         HistoryHomeScreen(
             onClick = {},
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

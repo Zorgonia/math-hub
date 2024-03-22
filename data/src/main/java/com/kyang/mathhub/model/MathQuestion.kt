@@ -11,7 +11,7 @@ sealed class MathQuestion() {
 class MathQuestionEquation(
     val first: MathQuestion,
     val second: MathQuestion,
-    val operation: MathOperation
+    val operation: MathOperation,
 ) : MathQuestion() {
     override fun calculate(): Int {
         val firstCalculated = first.calculate()
@@ -50,7 +50,7 @@ class MathQuestionEquation(
         return when (this.operation) {
             MathOperation.ADD, MathOperation.MULTIPLY -> {
                 (input.first == this.first && input.second == this.second)
-                        || (input.first == this.second && input.second == this.first)
+                    || (input.first == this.second && input.second == this.first)
             }
 
             MathOperation.SUBTRACT, MathOperation.DIVIDE, MathOperation.EXPONENT -> {

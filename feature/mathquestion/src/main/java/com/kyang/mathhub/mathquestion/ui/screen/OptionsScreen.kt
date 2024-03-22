@@ -29,7 +29,7 @@ import com.kyang.mathhub.theme.MathHubTheme
 fun OptionsPage(
     uiState: MathQuestionUiState,
     mathQuestionViewModel: MathQuestionViewModel,
-    mathQuestionNavController: NavHostController
+    mathQuestionNavController: NavHostController,
 ) {
     OptionsScreen(
         onMinChange = { mathQuestionViewModel.setMin(it) },
@@ -49,9 +49,10 @@ fun OptionsPage(
         timeEnabled = uiState.timeEnabled,
         timeEnabledChange = { mathQuestionViewModel.setTimeEnabled(it) },
         modifier = Modifier.fillMaxSize(),
-        readyToPlay = uiState.readyToPlay
+        readyToPlay = uiState.readyToPlay,
     )
 }
+
 @Composable
 fun OptionsScreen(
     onMinChange: (String) -> Unit,
@@ -68,30 +69,30 @@ fun OptionsScreen(
     maxVal: String,
     readyToPlay: Boolean,
     onNextClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 32.dp),
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceAround,
         ) {
 
             QuestionSettingNumberField(
                 title = R.string.question_setting_min_num,
                 value = minVal,
-                onValueChange = onMinChange
+                onValueChange = onMinChange,
             )
 
             QuestionSettingNumberField(
                 title = R.string.question_setting_max_num,
                 value = maxVal,
-                onValueChange = onMaxChange
+                onValueChange = onMaxChange,
             )
 
         }
@@ -104,7 +105,7 @@ fun OptionsScreen(
             onValueChange = onRoundChange,
             inputTitle = R.string.question_setting_num_rounds,
             showOnEnabled = false,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
         )
 
         QuestionSettingCheckOption(
@@ -115,14 +116,14 @@ fun OptionsScreen(
             onValueChange = onMaxTimeChange,
             inputTitle = R.string.question_setting_round_timer,
             showOnEnabled = true,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
         )
 
         Button(onClick = onNextClicked, enabled = readyToPlay) {
             Text(
                 stringResource(id = R.string.start_cta),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.wrapContentHeight()
+                modifier = Modifier.wrapContentHeight(),
             )
         }
     }
@@ -147,7 +148,7 @@ private fun QuestionSettingScreenPreview() {
             timeEnabledChange = {},
             timeEnabled = true,
             readyToPlay = false,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

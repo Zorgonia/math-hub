@@ -14,17 +14,17 @@ fun HistoryScreenNavigation() {
     val historyNavController = rememberNavController()
     NavHost(
         navController = historyNavController,
-        startDestination = HistoryScreen.HistoryHome.route
+        startDestination = HistoryScreen.HistoryHome.route,
     ) {
         composable(route = HistoryScreen.HistoryHome.route) {
             HistoryHomeScreen(
                 onClick = { historyNavController.navigate(HistoryScreen.HistoryDetail.route) },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
         }
         composable(route = HistoryScreen.HistoryDetail.route) {
             HistoryDetailScreen(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }

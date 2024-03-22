@@ -18,5 +18,5 @@ data class MathQuestionUiState(
     val endless: Boolean = true,
     val gameOver: Boolean = false,
     val readyToPlay: Boolean = true,
-    val roundProgress: Float = 1f
+    val roundProgress: Float = 1f,
 )

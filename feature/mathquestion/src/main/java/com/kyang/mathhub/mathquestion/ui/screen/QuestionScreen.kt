@@ -33,7 +33,7 @@ import com.kyang.mathhub.theme.MathHubTheme
 fun QuestionPage(
     uiState: MathQuestionUiState,
     mathQuestionViewModel: MathQuestionViewModel,
-    mathQuestionNavController: NavHostController
+    mathQuestionNavController: NavHostController,
 ) {
     QuestionScreen(
         first = uiState.first,
@@ -45,7 +45,7 @@ fun QuestionPage(
         },
         progress = uiState.roundProgress,
         timeEnabled = uiState.timeEnabled,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     )
     if (uiState.submitted) {
         mathQuestionNavController.popBackStack()
@@ -62,22 +62,23 @@ private fun QuestionScreen(
     progress: Float,
     timeEnabled: Boolean,
     onSubmit: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
 
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = stringResource(id = R.string.question_multiplication, first, second)
+            text = stringResource(id = R.string.question_multiplication, first, second),
         )
 
         Text(text = stringResource(id = R.string.question_equals))
 
-        NumberInputTextField(value = answer,
+        NumberInputTextField(
+            value = answer,
             onValueChange = onAnswerChange,
             onSubmit = onSubmit,
             label = {
@@ -93,13 +94,14 @@ private fun QuestionScreen(
                     false
                 }
                 .focusRequester(focusRequester)
-                .padding(vertical = 16.dp))
+                .padding(vertical = 16.dp),
+        )
 
         Button(onClick = onSubmit) {
             Text(
                 stringResource(id = R.string.question_answer),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.wrapContentHeight()
+                modifier = Modifier.wrapContentHeight(),
             )
         }
 
@@ -108,7 +110,7 @@ private fun QuestionScreen(
                 progress = { progress },
                 modifier = Modifier.padding(top = 16.dp),
                 color = MaterialTheme.colorScheme.secondary,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         }
 
@@ -131,7 +133,7 @@ private fun QuestionScreenPreview() {
             onAnswerChange = {},
             onSubmit = {},
             answer = "",
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

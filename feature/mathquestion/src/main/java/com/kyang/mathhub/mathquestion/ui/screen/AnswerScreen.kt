@@ -30,7 +30,7 @@ import com.kyang.mathhub.theme.MathHubTheme
 fun AnswerPage(
     uiState: MathQuestionUiState,
     mathQuestionViewModel: MathQuestionViewModel,
-    mathQuestionNavController: NavHostController
+    mathQuestionNavController: NavHostController,
 ) {
     AnswerScreen(
         first = uiState.first,
@@ -55,9 +55,10 @@ fun AnswerPage(
             }
         },
         submitted = uiState.submitted,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     )
 }
+
 @Composable
 private fun AnswerScreen(
     first: Int,
@@ -74,29 +75,35 @@ private fun AnswerScreen(
     realAnswer: String,
     onNext: () -> Unit,
     submitted: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
 
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         if (submitted) {
-            Text(text = stringResource(id = if (correct) R.string.question_correct else R.string.question_incorrect), modifier = Modifier.padding(bottom = 16.dp))
+            Text(
+                text = stringResource(id = if (correct) R.string.question_correct else R.string.question_incorrect),
+                modifier = Modifier.padding(bottom = 16.dp),
+            )
             Text(
                 text = stringResource(
                     id = R.string.question_multiplication_answer,
                     first,
                     second,
-                    realAnswer
+                    realAnswer,
                 ),
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
             )
 
             if (!correct) {
-                Text(text = stringResource(id = R.string.question_your_answer, answer), modifier = Modifier.padding(bottom = 16.dp))
+                Text(
+                    text = stringResource(id = R.string.question_your_answer, answer),
+                    modifier = Modifier.padding(bottom = 16.dp),
+                )
             }
 
             Spacer(modifier = Modifier.padding(16.dp))
@@ -105,54 +112,54 @@ private fun AnswerScreen(
                 Text(
                     text = stringResource(
                         id = R.string.question_time_left,
-                        timeLeft
+                        timeLeft,
                     ),
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
                 )
 
                 Text(
                     text = stringResource(
                         id = R.string.question_score_round,
-                        roundScore
+                        roundScore,
                     ),
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
                 )
             }
 
             Text(
                 text = stringResource(
                     id = R.string.question_score,
-                    score
+                    score,
                 ),
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
             )
 
             if (endless) {
                 Text(
                     text = stringResource(
                         id = R.string.question_round_endless,
-                        round
+                        round,
                     ),
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
                 )
             } else {
                 Text(
                     text = stringResource(
                         id = R.string.question_round_out_of,
                         round,
-                        maxRound.toInt()
+                        maxRound.toInt(),
                     ),
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
                 )
             }
-            
+
             Spacer(modifier = Modifier.padding(16.dp))
 
             Button(onClick = onNext, modifier = Modifier.focusRequester(focusRequester)) {
                 Text(
                     stringResource(id = R.string.next_cta),
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.wrapContentHeight()
+                    modifier = Modifier.wrapContentHeight(),
                 )
             }
 
@@ -183,7 +190,7 @@ private fun AnswerScreenPreview() {
             timeEnabled = false,
             roundScore = 20,
             submitted = true,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
