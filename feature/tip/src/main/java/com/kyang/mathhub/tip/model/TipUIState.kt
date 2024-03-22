@@ -8,7 +8,7 @@ data class TipUIState(
         TipPrice("10", "", ""),
         TipPrice("15", "", ""),
         TipPrice("18", "", ""),
-        TipPrice("20", "", "")
+        TipPrice("20", "", ""),
     ),
     val priceWithoutTax: String = "",
     val taxPercent: String = "13.0",

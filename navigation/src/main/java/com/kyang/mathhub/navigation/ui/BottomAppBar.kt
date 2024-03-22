@@ -14,7 +14,7 @@ fun BottomBar(
     backStackEntry: NavBackStackEntry?,
     items: List<BottomNavItem>,
     onClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NavigationBar(modifier = modifier) {
         items.forEachIndexed { _, bottomNavItem ->
@@ -26,7 +26,7 @@ fun BottomBar(
                 },
                 label = {
                     Text(bottomNavItem.label)
-                }
+                },
             )
 
         }

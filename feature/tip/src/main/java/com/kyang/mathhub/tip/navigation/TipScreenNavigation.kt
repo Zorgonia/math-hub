@@ -21,18 +21,18 @@ fun TipScreenNavigation() {
 
     NavHost(
         navController = tipNavController,
-        startDestination = TipScreen.TipHome.route
+        startDestination = TipScreen.TipHome.route,
     ) {
         composable(route = TipScreen.TipHome.route) {
             TipHomePage(
                 uiState = tipUIState,
                 tipViewModel = tipViewModel,
-                tipNavController = tipNavController
+                tipNavController = tipNavController,
             )
         }
         composable(route = TipScreen.TipDetail.route) {
             TipDetailScreen(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }

@@ -1,26 +1,23 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kspPlugin)
 }
 
 android {
-    namespace = "com.kyang.mathhub.domain"
+    namespace = "com.kyang.mathhub.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-
     }
 
     kotlin {
         jvmToolchain(libs.versions.jvm.toolchain.get().toInt())
     }
+
 }
 
 dependencies {
     implementation(libs.core.ktx)
-    implementation(libs.hilt.android)
-    implementation(project(":data"))
-    ksp(libs.hilt.compiler)
+
 }

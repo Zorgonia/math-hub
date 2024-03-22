@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TipViewModel @Inject constructor(
-    private val tipRepository: TipRepository
+    private val tipRepository: TipRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(TipUIState())
     val uiState: StateFlow<TipUIState> = _uiState.asStateFlow()
@@ -30,7 +30,7 @@ class TipViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     priceWithTax = price,
-                    taxPercent = curr.taxPercent.ifEmpty { "0" }
+                    taxPercent = curr.taxPercent.ifEmpty { "0" },
                 )
             }
         }
@@ -45,7 +45,7 @@ class TipViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     priceWithoutTax = price,
-                    taxPercent = curr.taxPercent.ifEmpty { "0" }
+                    taxPercent = curr.taxPercent.ifEmpty { "0" },
                 )
             }
         }
@@ -55,7 +55,7 @@ class TipViewModel @Inject constructor(
         if (percent.isEmpty()) {
             _uiState.update { curr ->
                 curr.copy(
-                    taxPercent = percent
+                    taxPercent = percent,
                 )
             }
         } else if (percent.isDouble()) {
@@ -63,7 +63,7 @@ class TipViewModel @Inject constructor(
         } else if (percent.last() == '.') {
             _uiState.update { curr ->
                 curr.copy(
-                    taxPercent = percent
+                    taxPercent = percent,
                 )
             }
         }
@@ -82,7 +82,7 @@ class TipViewModel @Inject constructor(
     fun setAddingTip(adding: Boolean) {
         _uiState.update { curr ->
             curr.copy(
-                addingTip = adding
+                addingTip = adding,
             )
         }
     }
@@ -91,7 +91,7 @@ class TipViewModel @Inject constructor(
         if (tip.isDouble()) {
             _uiState.update { curr ->
                 curr.copy(
-                    newTip = tip
+                    newTip = tip,
                 )
             }
         }
@@ -108,7 +108,7 @@ class TipViewModel @Inject constructor(
                     } else {
                         tipPrice
                     }
-                }
+                },
             )
         }
     }
@@ -122,7 +122,7 @@ class TipViewModel @Inject constructor(
                     } else {
                         tipPrice
                     }
-                }
+                },
             )
         }
     }
@@ -133,10 +133,11 @@ class TipViewModel @Inject constructor(
             updated.removeIf { it.selected }
             curr.copy(
                 editing = false,
-                tipCalcs = updated
+                tipCalcs = updated,
             )
         }
     }
+
     fun cancelDelete() {
         _uiState.update { curr ->
             curr.copy(
@@ -147,7 +148,7 @@ class TipViewModel @Inject constructor(
                     } else {
                         tipPrice
                     }
-                }
+                },
             )
         }
     }
@@ -167,22 +168,22 @@ class TipViewModel @Inject constructor(
                             price = curr.priceWithoutTax.toDouble(),
                             tipPercent = curr.newTip.toDouble(),
                             taxPercent = curr.taxPercent.toDouble(),
-                            isTaxed = false
+                            isTaxed = false,
                         ).toPriceString(),
                         taxedCalc = tipRepository.getFinalAmount(
                             price = curr.priceWithTax.toDouble(),
                             tipPercent = curr.newTip.toDouble(),
                             taxPercent = curr.taxPercent.toDouble(),
-                            isTaxed = true
-                        ).toPriceString()
-                    )
+                            isTaxed = true,
+                        ).toPriceString(),
+                    ),
                 )
             }
 
             curr.copy(
                 tipCalcs = (curr.tipCalcs + temp).sortedBy { it.tipPercent.toDouble() },
                 newTip = "",
-                addingTip = false
+                addingTip = false,
             )
         }
     }
@@ -190,18 +191,18 @@ class TipViewModel @Inject constructor(
     private fun calculateNewPrices(
         price: String,
         isTaxed: Boolean,
-        updatedTax: String? = null
+        updatedTax: String? = null,
     ) {
         _uiState.update { curr ->
             val taxPercent = updatedTax?.toDouble()
                 ?: if (curr.taxPercent.isEmpty()) 0.0 else curr.taxPercent.toDouble()
             val nonTaxed = if (isTaxed) tipRepository.getUntaxedAmount(
                 price.toDouble(),
-                taxPercent
+                taxPercent,
             ).toPriceString() else price
             val taxed = if (isTaxed) price else tipRepository.getTaxedAmount(
                 price.toDouble(),
-                taxPercent
+                taxPercent,
             ).toPriceString()
             curr.copy(
                 priceWithTax = taxed,
@@ -213,19 +214,19 @@ class TipViewModel @Inject constructor(
                             price = nonTaxed.toDouble(),
                             tipPercent = it.tipPercent.toDouble(),
                             taxPercent = taxPercent,
-                            isTaxed = false
+                            isTaxed = false,
                         ).toPriceString(),
                         taxedCalc = tipRepository.getFinalAmount(
                             price = taxed.toDouble(),
                             tipPercent = it.tipPercent.toDouble(),
                             taxPercent = taxPercent,
-                            isTaxed = true
+                            isTaxed = true,
                         ).toPriceString(),
                         id = it.id,
-                        selected = it.selected
+                        selected = it.selected,
                     )
                 },
-                taxPercent = updatedTax ?: curr.taxPercent.ifEmpty { "0" }
+                taxPercent = updatedTax ?: curr.taxPercent.ifEmpty { "0" },
             )
         }
     }

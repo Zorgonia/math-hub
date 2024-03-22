@@ -1,9 +1,13 @@
 package com.kyang.mathhub.domain.repo.math
 
-interface MathQuestionRepository {
-    fun getNewQuestion(min: Int, max: Int, old: Pair<Int, Int>): Pair<Int, Int>
 
-    fun getAnswer(nums: Pair<Int, Int>): Int
+import com.kyang.mathhub.model.MathQuestion
+import com.kyang.mathhub.model.MathQuestionEquation
+
+interface MathQuestionRepository {
+    fun getNewQuestion(min: Int, max: Int, old: List<MathQuestion>): MathQuestionEquation
+
+    fun getAnswer(equation: MathQuestion): Int
 
     fun getScore(timeRemaining: Int, maxTime: Int, timed: Boolean): Int
 }

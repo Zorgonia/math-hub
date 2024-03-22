@@ -14,7 +14,7 @@ fun QuestionSettingNumberField(
     @StringRes title: Int,
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NumberInputTextField(
         value = value, onValueChange = onValueChange,
@@ -24,6 +24,6 @@ fun QuestionSettingNumberField(
         onSubmit = { },
         modifier = modifier
             .width(100.dp)
-            .wrapContentHeight()
+            .wrapContentHeight(),
     )
 }

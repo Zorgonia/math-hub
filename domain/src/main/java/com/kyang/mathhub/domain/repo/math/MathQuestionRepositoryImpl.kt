@@ -1,28 +1,43 @@
 package com.kyang.mathhub.domain.repo.math
 
+import com.kyang.mathhub.model.MathOperation
+import com.kyang.mathhub.model.MathQuestion
+import com.kyang.mathhub.model.MathQuestionEquation
+import com.kyang.mathhub.model.MathQuestionSimple
 import javax.inject.Inject
 import kotlin.math.min
 import kotlin.random.Random
 
 class MathQuestionRepositoryImpl @Inject constructor(
 
-): MathQuestionRepository {
+) : MathQuestionRepository {
 
-    override fun getNewQuestion(min: Int, max: Int, old: Pair<Int, Int>): Pair<Int, Int> {
-        var first = Random.nextInt(min, max)
-        var second = Random.nextInt(min, max)
-        if (max - min < 2) {
-            return Pair(first, second)
+    override fun getNewQuestion(min: Int, max: Int, old: List<MathQuestion>): MathQuestionEquation {
+        var newQuestion = generateQuestion(min, max)
+        if (max - min < 3) {
+            return newQuestion
         }
-        while (first == old.first || first == old.second || second == old.first || second == old.second) {
-            first = Random.nextInt(min, max)
-            second = Random.nextInt(min, max)
+        var i = 0
+        while (i < 10 && old.any { it == newQuestion }) {
+            newQuestion = generateQuestion(min, max)
+            i += 1
         }
-        return Pair(first, second)
+        if (newQuestion == old.lastOrNull()) {
+            newQuestion = generateQuestion(min, max)
+        }
+        return newQuestion
     }
 
-    override fun getAnswer(nums: Pair<Int, Int>): Int {
-        return nums.first * nums.second
+    private fun generateQuestion(min: Int, max: Int): MathQuestionEquation {
+        return MathQuestionEquation(
+            MathQuestionSimple(Random.nextInt(min, max + 1)),
+            MathQuestionSimple(Random.nextInt(min, max + 1)),
+            MathOperation.MULTIPLY,
+        )
+    }
+
+    override fun getAnswer(equation: MathQuestion): Int {
+        return equation.calculate()
     }
 
     //TODO use cases

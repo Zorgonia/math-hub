@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":theme"))
     implementation(project(":domain"))
+    implementation(project(":data"))
     ksp(libs.lifecycle.kapt)
 
     implementation(platform(libs.compose.bom))

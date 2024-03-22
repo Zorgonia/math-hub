@@ -15,23 +15,25 @@ fun NumberInputTextField(
     onValueChange: (String) -> Unit,
     onSubmit: () -> Unit,
     label: @Composable() (() -> Unit)?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     TextField(
         value = value,
         onValueChange = {
-            if (it.isInt()) {
+            if (it.isEmpty() || it.isInt()) {
                 onValueChange(it)
             }
         },
         label = label,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Go,
-            keyboardType = KeyboardType.Decimal
+            keyboardType = KeyboardType.Decimal,
         ),
-        keyboardActions = KeyboardActions(onGo = {
-            onSubmit()
-        }),
-        modifier = modifier
+        keyboardActions = KeyboardActions(
+            onGo = {
+                onSubmit()
+            },
+        ),
+        modifier = modifier,
     )
 }

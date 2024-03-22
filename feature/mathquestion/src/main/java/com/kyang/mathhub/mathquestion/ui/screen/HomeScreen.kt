@@ -18,7 +18,7 @@ import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun HomePage(
-    mathQuestionNavController: NavHostController
+    mathQuestionNavController: NavHostController,
 ) {
     HomeScreen(
         onNextClicked = {
@@ -26,26 +26,29 @@ fun HomePage(
                 launchSingleTop = true
             }
         },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     )
 }
 
 @Composable
 private fun HomeScreen(
     onNextClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceAround,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
         )
         Button(onClick = onNextClicked) {
-            Text(stringResource(id = R.string.start_cta), style = MaterialTheme.typography.bodyLarge)
+            Text(
+                stringResource(id = R.string.start_cta),
+                style = MaterialTheme.typography.bodyLarge,
+            )
         }
     }
 }

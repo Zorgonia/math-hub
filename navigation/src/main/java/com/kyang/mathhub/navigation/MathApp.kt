@@ -30,7 +30,7 @@ private enum class NavGraphs(val route: String) {
 
 @Composable
 fun MathApp(
-    bottomNavController: NavHostController = rememberNavController()
+    bottomNavController: NavHostController = rememberNavController(),
 ) {
 
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
@@ -44,17 +44,17 @@ fun MathApp(
                     BottomNavItem(
                         label = stringResource(id = R.string.bottom_bar_math),
                         icon = Icons.Filled.Add,
-                        route = NavGraphs.MathQuestion.route
+                        route = NavGraphs.MathQuestion.route,
                     ),
                     BottomNavItem(
                         label = stringResource(id = R.string.bottom_bar_tip),
                         icon = Icons.Filled.Create,
-                        route = NavGraphs.Tip.route
+                        route = NavGraphs.Tip.route,
                     ),
                     BottomNavItem(
                         label = stringResource(id = R.string.bottom_bar_history),
                         icon = Icons.Filled.Person,
-                        route = NavGraphs.MathHistory.route
+                        route = NavGraphs.MathHistory.route,
                     ),
                 ),
                 onClick = { route ->
@@ -65,9 +65,9 @@ fun MathApp(
                         restoreState = true
                         launchSingleTop = true
                     }
-                }
+                },
             )
-        }
+        },
     ) { innerPadding ->
 
         BottomNavigation(innerPadding = innerPadding, bottomNavController = bottomNavController)
@@ -78,13 +78,13 @@ fun MathApp(
 fun BottomNavigation(
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
-    bottomNavController: NavHostController
+    bottomNavController: NavHostController,
 ) {
 
     NavHost(
         navController = bottomNavController,
         startDestination = NavGraphs.MathQuestion.route,
-        modifier = modifier.padding(innerPadding)
+        modifier = modifier.padding(innerPadding),
     ) {
 
         composable(route = NavGraphs.MathQuestion.route) {

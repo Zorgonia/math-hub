@@ -18,12 +18,12 @@ fun QuestionSettingCheckOption(
     onValueChange: (String) -> Unit,
     @StringRes inputTitle: Int,
     showOnEnabled: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 
-) {
+    ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             stringResource(id = optionTitle),

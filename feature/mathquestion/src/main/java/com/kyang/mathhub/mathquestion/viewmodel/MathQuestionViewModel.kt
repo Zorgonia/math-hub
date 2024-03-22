@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kyang.mathhub.domain.repo.math.MathQuestionRepository
+import com.kyang.mathhub.mathquestion.helper.isInt
 import com.kyang.mathhub.mathquestion.model.MathQuestionUiState
+import com.kyang.mathhub.model.MathQuestionEquation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -17,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MathQuestionViewModel @Inject constructor(
-    private val mathQuestionRepository: MathQuestionRepository
+    private val mathQuestionRepository: MathQuestionRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MathQuestionUiState())
@@ -25,36 +27,35 @@ class MathQuestionViewModel @Inject constructor(
 
     private var timerJob: Job? = null
 
+    private var questionHistory: MutableList<MathQuestionEquation> =
+        mutableListOf()
+
     fun setMin(min: String) {
-        try {
-            val check = min.toInt()
+        if (min.isEmpty() || min.isInt()) {
             _uiState.update { curr ->
                 curr.copy(
-                    minNum = min
+                    minNum = min,
+                    readyToPlay = min.isNotEmpty(),
                 )
             }
-        } catch (e: Exception) {
-            Log.e("com.kyang.mathhub", "min must be int")
         }
     }
 
     fun setMax(max: String) {
-        try {
-            val check = max.toInt()
+        if (max.isEmpty() || max.isInt()) {
             _uiState.update { curr ->
                 curr.copy(
-                    maxNum = max
+                    maxNum = max,
+                    readyToPlay = max.isNotEmpty(),
                 )
             }
-        } catch (e: Exception) {
-            Log.e("com.kyang.mathhub", "max must be int")
         }
     }
 
     fun setEndless(endless: Boolean) {
         _uiState.update { curr ->
             curr.copy(
-                endless = endless
+                endless = endless,
             )
         }
     }
@@ -62,79 +63,81 @@ class MathQuestionViewModel @Inject constructor(
     fun setTimeEnabled(timeEnabled: Boolean) {
         _uiState.update { curr ->
             curr.copy(
-                timeEnabled = timeEnabled
+                timeEnabled = timeEnabled,
             )
         }
     }
 
     fun setMaxTime(time: String) {
-        try {
-            val check = time.toInt()
+        if (time.isEmpty() || time.isInt()) {
             _uiState.update { curr ->
                 curr.copy(
-                    maxTime = check
+                    maxTime = time,
+                    readyToPlay = !curr.timeEnabled || time.isNotEmpty(),
                 )
             }
-        } catch (e: Exception) {
-            Log.e("com.kyang.mathhub", "maxTime must be int")
         }
     }
 
     fun setMaxRound(maxRound: String) {
-        try {
-            val check = maxRound.toInt()
+        if (maxRound.isEmpty() || maxRound.isInt()) {
             _uiState.update { curr ->
                 curr.copy(
-                    maxRound = check
+                    maxRound = maxRound,
+                    readyToPlay = curr.endless || maxRound.isNotEmpty(),
                 )
             }
-        } catch (e: Exception) {
-            Log.e("com.kyang.mathhub", "maxRound must be int")
         }
     }
 
     fun nextQuestion() {
         _uiState.update { curr ->
-            val newPair = mathQuestionRepository.getNewQuestion(
-                curr.minNum.toInt(),
-                curr.maxNum.toInt(),
-                Pair(curr.first, curr.second)
-            )
+            val newQuestion = generateNewQuestion(curr)
             curr.copy(
-                first = newPair.first,
-                second = newPair.second,
+                first = newQuestion.first.calculate(),
+                second = newQuestion.second.calculate(),
                 answer = "",
                 submitted = false,
                 correct = false,
                 roundScore = 0,
                 round = curr.round + 1,
-                currTime = curr.maxTime
+                currTime = if (curr.maxTime.isEmpty()) 99 else curr.maxTime.toInt(),
+                roundProgress = 1f,
             )
         }
         startTimer()
     }
 
     fun resetGame() {
+        questionHistory.clear()
         _uiState.update { curr ->
-            val newPair = mathQuestionRepository.getNewQuestion(
-                curr.minNum.toInt(),
-                curr.maxNum.toInt(),
-                Pair(curr.first, curr.second)
-            )
+            val newQuestion = generateNewQuestion(curr)
             curr.copy(
-                first = newPair.first,
-                second = newPair.second,
+                first = newQuestion.first.calculate(),
+                second = newQuestion.second.calculate(),
                 answer = "",
                 submitted = false,
                 correct = false,
                 round = 1,
                 score = 0,
                 roundScore = 0,
-                currTime = curr.maxTime,
-                gameOver = false
+                currTime = if (curr.maxTime.isEmpty()) 99 else curr.maxTime.toInt(),
+                gameOver = false,
+                roundProgress = 1f,
             )
         }
         startTimer()
+    }
+
+    private fun generateNewQuestion(state: MathQuestionUiState): MathQuestionEquation {
+        val newQuestion = mathQuestionRepository.getNewQuestion(
+            state.minNum.toInt(),
+            state.maxNum.toInt(),
+            questionHistory,
+        )
+        questionHistory.add(newQuestion)
+
+        return newQuestion
     }
 
     fun getRealAnswer(): String = "${_uiState.value.first * _uiState.value.second}"
@@ -142,23 +145,24 @@ class MathQuestionViewModel @Inject constructor(
     fun updateAnswer(ans: String) {
         _uiState.update { curr ->
             curr.copy(
-                answer = ans
+                answer = ans,
             )
         }
     }
 
     fun answerQuestion() {
-        val gameOver = uiState.value.maxRound == uiState.value.round && !uiState.value.endless
+        val gameOver =
+            uiState.value.maxRound.toIntOrNull() == uiState.value.round && !uiState.value.endless
         resetTimer()
         try {
             _uiState.update { curr ->
                 val roundScore = mathQuestionRepository.getScore(
                     timeRemaining = curr.currTime,
-                    maxTime = curr.maxTime,
-                    timed = curr.timeEnabled
+                    maxTime = curr.maxTime.toInt(),
+                    timed = curr.timeEnabled,
                 )
                 if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(
-                        Pair(curr.first, curr.second)
+                        questionHistory.last(),
                     )
                 ) {
                     curr.copy(
@@ -166,13 +170,13 @@ class MathQuestionViewModel @Inject constructor(
                         correct = true,
                         roundScore = roundScore,
                         score = curr.score + roundScore,
-                        gameOver = gameOver
+                        gameOver = gameOver,
                     )
                 } else {
                     curr.copy(
                         submitted = true,
                         correct = false,
-                        gameOver = gameOver
+                        gameOver = gameOver,
                     )
                 }
 
@@ -182,7 +186,7 @@ class MathQuestionViewModel @Inject constructor(
             _uiState.update { curr ->
                 curr.copy(
                     submitted = true,
-                    correct = false
+                    correct = false,
                 )
             }
         }
@@ -193,22 +197,34 @@ class MathQuestionViewModel @Inject constructor(
             answerQuestion()
         } else {
             _uiState.update { curr ->
+                val upd = curr.currTime - 1
                 curr.copy(
-                    currTime = curr.currTime - 1
+                    currTime = upd,
+                    roundProgress = getRoundProgress(upd),
                 )
             }
         }
     }
 
+    private fun getRoundProgress(time: Int): Float {
+        uiState.value.maxTime.toIntOrNull()?.let { maxTime ->
+            return time.toFloat() / maxTime
+        }
+        return 0f
+    }
+
     private fun startTimer() {
         timerJob?.cancel()
         if (!_uiState.value.timeEnabled) return
-        timerJob = viewModelScope.launch {
-            for (i in 0 until _uiState.value.maxTime) {
-                delay(1000)
-                decrementQuestionTimer()
+        _uiState.value.maxTime.toIntOrNull()?.let { maxTime ->
+            timerJob = viewModelScope.launch {
+                for (i in 0 until maxTime) {
+                    delay(1000)
+                    decrementQuestionTimer()
+                }
             }
         }
+
     }
 
     private fun resetTimer() {

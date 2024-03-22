@@ -26,11 +26,11 @@ import com.kyang.mathhub.theme.MathHubTheme
 fun GameEndPage(
     uiState: MathQuestionUiState,
     mathQuestionViewModel: MathQuestionViewModel,
-    mathQuestionNavController: NavHostController
+    mathQuestionNavController: NavHostController,
 ) {
     GameEndScreen(
         score = uiState.score,
-        round = uiState.maxRound,
+        round = uiState.round,
         onReset = {
             mathQuestionViewModel.resetGame()
             mathQuestionNavController.popBackStack()
@@ -39,10 +39,11 @@ fun GameEndPage(
         onSettings = {
             mathQuestionNavController.popBackStack(
                 MathAppScreen.MathOptions.route,
-                inclusive = false
+                inclusive = false,
             )
         },
-        modifier = Modifier.fillMaxSize()
+        timed = uiState.timeEnabled,
+        modifier = Modifier.fillMaxSize(),
     )
 }
 
@@ -50,28 +51,29 @@ fun GameEndPage(
 private fun GameEndScreen(
     score: Int,
     round: Int,
+    timed: Boolean,
     onReset: () -> Unit,
     onSettings: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             stringResource(id = R.string.game_over),
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp),
         )
 
         Text(
             text = stringResource(
                 id = R.string.game_over_you_scored,
                 score,
-                round * 100
+                if (timed) round * 100 else round,
             ),
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         )
 
         Row(horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxWidth()) {
@@ -95,7 +97,8 @@ private fun GameEndScreenPreview() {
             onSettings = {},
             score = 0,
             round = 10,
-            modifier = Modifier.fillMaxSize()
+            timed = false,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

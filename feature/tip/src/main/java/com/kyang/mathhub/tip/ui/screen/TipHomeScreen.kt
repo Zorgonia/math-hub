@@ -41,7 +41,7 @@ import java.util.UUID
 fun TipHomePage(
     uiState: TipUIState,
     tipViewModel: TipViewModel,
-    tipNavController: NavHostController
+    tipNavController: NavHostController,
 ) {
     TipHomeScreen(
         basePrice = uiState.priceWithoutTax,
@@ -61,7 +61,7 @@ fun TipHomePage(
         onCancelEdits = { tipViewModel.cancelDelete() },
         editing = uiState.editing,
         onEditGesture = { tipViewModel.startEditing(it) },
-        onCheckChange = { tipViewModel.updateSelected(it) }
+        onCheckChange = { tipViewModel.updateSelected(it) },
     )
 }
 
@@ -84,17 +84,17 @@ private fun TipHomeScreen(
     onCheckChange: (UUID) -> Unit,
     onCancelEdits: () -> Unit,
     onConfirmEdits: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier,
 
-    ) {
+        ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 16.dp)
+            modifier = Modifier.padding(vertical = 16.dp),
         ) {
             DoubleInputTextField(
                 value = basePrice,
@@ -106,7 +106,7 @@ private fun TipHomeScreen(
                 decimalPoints = 2,
                 modifier = Modifier
                     .padding(start = 16.dp, end = 8.dp)
-                    .weight(1f)
+                    .weight(1f),
             )
 
             DoubleInputTextField(
@@ -119,7 +119,7 @@ private fun TipHomeScreen(
                 decimalPoints = 2,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 16.dp)
-                    .weight(1f)
+                    .weight(1f),
             )
         }
 
@@ -132,14 +132,14 @@ private fun TipHomeScreen(
                 Text(text = stringResource(id = R.string.tax_percent))
             },
             decimalPoints = 2,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp),
         )
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight(0.85f)
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
         ) {
             items(tipCalculations, key = { it.id }) { item ->
                 TipListComponent(
@@ -159,7 +159,7 @@ private fun TipHomeScreen(
         if (isAddingNewTip) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                horizontalArrangement = Arrangement.Start,
             ) {
                 DoubleInputTextField(
                     value = newTip,
@@ -169,7 +169,7 @@ private fun TipHomeScreen(
                         Text(text = stringResource(id = R.string.tip_percent_header))
                     },
                     decimalPoints = 2,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
                 )
                 IconButton(onClick = finishNewTip) {
                     Icon(Icons.Filled.Check, contentDescription = "check")
@@ -179,7 +179,7 @@ private fun TipHomeScreen(
         if (!isAddingNewTip && !editing) {
             Button(
                 onClick = { onAddNewTip(true) },
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
             ) {
                 Text(text = stringResource(id = R.string.add_new_tip))
             }
@@ -192,8 +192,8 @@ private fun TipHomeScreen(
                         containerColor = Grey,
                         contentColor = White,
                         disabledContainerColor = Grey,
-                        disabledContentColor = Black
-                    )
+                        disabledContentColor = Black,
+                    ),
                 ) {
                     Text(text = stringResource(id = R.string.cancel))
                 }
@@ -204,8 +204,8 @@ private fun TipHomeScreen(
                         containerColor = Red,
                         contentColor = White,
                         disabledContainerColor = Grey,
-                        disabledContentColor = Black
-                    )
+                        disabledContentColor = Black,
+                    ),
                 ) {
                     Text(text = stringResource(id = R.string.delete))
                 }
@@ -237,7 +237,7 @@ private fun TipHomeScreenPreview() {
             onCancelEdits = {},
             onConfirmEdits = {},
             editing = true,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

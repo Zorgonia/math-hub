@@ -31,39 +31,43 @@ fun TipListComponent(
     editing: Boolean,
     selected: Boolean,
     onCheckChange: (UUID) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .pointerInput(Unit) {
-                detectTapGestures(onLongPress = {
-                    onEditGesture(id)
-                })
+                detectTapGestures(
+                    onLongPress = {
+                        onEditGesture(id)
+                    },
+                )
             },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         if (editing) {
-            Checkbox(checked = selected, onCheckedChange = {onCheckChange(id)},
-                modifier = Modifier.padding(0.dp))
+            Checkbox(
+                checked = selected, onCheckedChange = { onCheckChange(id) },
+                modifier = Modifier.padding(0.dp),
+            )
         }
         Text(
             text = stringResource(id = R.string.tip_percent, tipPercent),
             style = MaterialTheme.typography.bodyLarge.copy(fontSize = 24.sp),
-            modifier = Modifier.padding(vertical = 12.dp)
+            modifier = Modifier.padding(vertical = 12.dp),
         )
 
         Column(
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             Text(
                 text = stringResource(id = R.string.tip_price_base, withoutTaxPrice),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
             Text(
                 text = stringResource(id = R.string.tip_price_taxed, withTaxPrice),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
     }
@@ -82,7 +86,7 @@ private fun TipListComponentPreview() {
             onCheckChange = {},
             onEditGesture = {},
             id = UUID.randomUUID(),
-            selected = true
+            selected = true,
         )
     }
 }

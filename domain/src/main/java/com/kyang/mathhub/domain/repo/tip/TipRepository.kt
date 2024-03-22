@@ -8,5 +8,10 @@ interface TipRepository {
 
     fun getUntaxedAmount(taxed: Double, taxPercent: Double): Double
 
-    fun getFinalAmount(price: Double, tipPercent: Double, taxPercent: Double, isTaxed: Boolean): Double
+    fun getFinalAmount(
+        price: Double,
+        tipPercent: Double,
+        taxPercent: Double,
+        isTaxed: Boolean,
+    ): Double
 }
