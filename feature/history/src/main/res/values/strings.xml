@@ -2,4 +2,12 @@
 <resources>
     <string name="history_home_header">Math Question History</string>
     <string name="history_detail">History Detail</string>
+
+    <string name="history_date_header">Date</string>
+    <string name="history_question_header">Question</string>
+    <string name="history_correct_header">Correct?</string>
+
+    <string name="history_correct">Correct</string>
+    <string name="history_incorrect">Incorrect</string>
+
 </resources>

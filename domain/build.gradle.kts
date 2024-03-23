@@ -23,4 +23,9 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(project(":data"))
     ksp(libs.hilt.compiler)
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
 }
