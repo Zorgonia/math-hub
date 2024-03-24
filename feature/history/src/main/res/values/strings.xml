@@ -6,8 +6,13 @@
     <string name="history_date_header">Date</string>
     <string name="history_question_header">Question</string>
     <string name="history_correct_header">Correct?</string>
+    <string name="history_your_answer_header">Your Answer</string>
+    <string name="history_correct_answer_header">Correct Answer</string>
+    <string name="history_time_used_header">Time</string>
 
     <string name="history_correct">Correct</string>
     <string name="history_incorrect">Incorrect</string>
+
+    <string name="no_answer">no answer</string>
 
 </resources>

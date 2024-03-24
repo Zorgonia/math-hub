@@ -3,6 +3,7 @@ package com.kyang.mathhub.model.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.kyang.mathhub.model.db.entity.MathQuestionEntity
 
 @Dao
 interface MathQuestionDao {

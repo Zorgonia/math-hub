@@ -2,6 +2,7 @@ package com.kyang.mathhub.domain.repo.history
 
 import android.util.Log
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
+import com.kyang.mathhub.domain.model.QuestionAnswerData
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEntityToLocalMathHistoryItem
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEquationToMathQuestionEntity
 import com.kyang.mathhub.model.MathQuestionEquation
@@ -13,9 +14,9 @@ import javax.inject.Singleton
 class HistoryRepositoryImpl @Inject constructor(
     private val dao: MathQuestionDao
 ): HistoryRepository {
-    override suspend fun addQuestionToHistory(question: MathQuestionEquation, correct: Boolean): Boolean {
+    override suspend fun addQuestionToHistory(data: QuestionAnswerData): Boolean {
         try {
-            dao.insert(mapMathQuestionEquationToMathQuestionEntity(question, correct))
+            dao.insert(mapMathQuestionEquationToMathQuestionEntity(data))
         } catch (e: Exception) {
             Log.e("error", "${e.message}")
             return false
@@ -24,7 +25,9 @@ class HistoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun retrieveAllHistory(): List<LocalMathHistoryItem> {
+
         return dao.getAll().map {
+            Log.d("test", "$it")
             mapMathQuestionEntityToLocalMathHistoryItem(it)
         }
     }

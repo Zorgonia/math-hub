@@ -5,4 +5,7 @@ data class LocalMathHistoryItem(
     val timestamp: String,
     val correct: Boolean,
     val question: String,
+    val userAnswer: String,
+    val correctAnswer: String,
+    val timeUsed: String
 )

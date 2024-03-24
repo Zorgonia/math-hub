@@ -1,8 +1,8 @@
 package com.kyang.mathhub.domain.repo.history.mapper
 
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
-import com.kyang.mathhub.model.MathQuestionEquation
-import com.kyang.mathhub.model.db.MathQuestionEntity
+import com.kyang.mathhub.domain.model.QuestionAnswerData
+import com.kyang.mathhub.model.db.entity.MathQuestionEntity
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -11,14 +11,22 @@ fun mapMathQuestionEntityToLocalMathHistoryItem(entity: MathQuestionEntity): Loc
         id = entity.id,
         question = entity.question,
         correct = entity.correct,
-        timestamp = entity.timestamp
+        timestamp = entity.timestamp,
+        timeUsed = entity.timeUsed.toString(),
+        correctAnswer = entity.correctAnswer,
+        userAnswer = entity.userAnswer
     )
 }
 
-fun mapMathQuestionEquationToMathQuestionEntity(equation: MathQuestionEquation, correct: Boolean): MathQuestionEntity {
+fun mapMathQuestionEquationToMathQuestionEntity(
+    data: QuestionAnswerData
+): MathQuestionEntity {
     return MathQuestionEntity(
-        question = equation.toString(),
+        question = data.question.toString(),
         timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
-        correct = correct
+        correct = data.correctAnswer == data.userAnswer,
+        correctAnswer = data.correctAnswer,
+        userAnswer = data.userAnswer,
+        timeUsed = data.timeUsed,
     )
 }
