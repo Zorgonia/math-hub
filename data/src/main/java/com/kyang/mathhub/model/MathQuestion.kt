@@ -70,6 +70,10 @@ class MathQuestionEquation(
         return "${this.first} ${this.operation.rep} ${this.second}"
     }
 
+    fun reverseString(): String {
+        return "${this.second} ${this.operation.rep} ${this.first}"
+    }
+
 }
 
 class MathQuestionSimple(val value: Int) : MathQuestion() {

@@ -14,5 +14,10 @@
     <string name="history_incorrect">Incorrect</string>
 
     <string name="no_answer">no answer</string>
+    <string name="loading">Loading…</string>
 
+    <string name="history_detail_times_answered">Times answered: %1$d</string>
+    <string name="history_detail_answered_correct">Answered correct: %1$d</string>
+    <string name="history_detail_answered_incorrect">Answered incorrect: %1$d</string>
+    <string name="history_detail_history">History: %1$d</string>
 </resources>

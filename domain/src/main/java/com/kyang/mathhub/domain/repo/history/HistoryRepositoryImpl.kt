@@ -3,9 +3,10 @@ package com.kyang.mathhub.domain.repo.history
 import android.util.Log
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
 import com.kyang.mathhub.domain.model.QuestionAnswerData
+import com.kyang.mathhub.domain.repo.history.mapper.isMultiplyOrAdd
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEntityToLocalMathHistoryItem
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEquationToMathQuestionEntity
-import com.kyang.mathhub.model.MathQuestionEquation
+import com.kyang.mathhub.domain.repo.history.mapper.reverseQuestionOrder
 import com.kyang.mathhub.model.db.MathQuestionDao
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,10 +33,19 @@ class HistoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun retrieveByQuestion(question: MathQuestionEquation): List<LocalMathHistoryItem> {
-        return dao.getByQuestion(question.toString()).map {
+    override suspend fun retrieveByQuestion(historyItem: LocalMathHistoryItem): List<LocalMathHistoryItem> {
+        val questions = dao.getByQuestion(historyItem.question).map {
             mapMathQuestionEntityToLocalMathHistoryItem(it)
         }
+
+        if (isMultiplyOrAdd(historyItem.question)) {
+            val oppositeOrder = dao.getByQuestion(reverseQuestionOrder(historyItem.question)).map {
+                mapMathQuestionEntityToLocalMathHistoryItem(it)
+            }
+            return questions + oppositeOrder
+        }
+
+        return questions
     }
 
 }

@@ -10,7 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
-import com.kyang.mathhub.history.model.HistoryHomeUIState
+import com.kyang.mathhub.history.model.HistoryHomeUiState
+import com.kyang.mathhub.history.navigation.HistoryScreen
 import com.kyang.mathhub.history.ui.component.HistoryHomeHeader
 import com.kyang.mathhub.history.ui.component.HistoryItemRowComponent
 import com.kyang.mathhub.history.viewmodel.HistoryViewModel
@@ -18,15 +19,22 @@ import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun HistoryHomePage(
-    uiState: HistoryHomeUIState,
+    uiState: HistoryHomeUiState,
     viewModel: HistoryViewModel,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
-    HistoryHomeScreen(uiState.data, modifier = Modifier.fillMaxSize())
+    HistoryHomeScreen(
+        onItemClick = {
+            viewModel.getHistory(it)
+            navController.navigate(HistoryScreen.HistoryDetail.route)
+        },
+        history = uiState.data, modifier = Modifier.fillMaxSize(),
+    )
 }
 
 @Composable
 private fun HistoryHomeScreen(
+    onItemClick: (LocalMathHistoryItem) -> Unit,
     history: List<LocalMathHistoryItem>,
     modifier: Modifier = Modifier,
 ) {
@@ -38,7 +46,8 @@ private fun HistoryHomeScreen(
         LazyColumn {
             items(history, key = { it.id }) { item ->
                 HistoryItemRowComponent(
-                    data = item
+                    data = item,
+                    onClick = onItemClick,
                 )
             }
         }
@@ -52,6 +61,7 @@ private fun HistoryHomeScreenPreview() {
         HistoryHomeScreen(
             history = listOf(),
             modifier = Modifier.fillMaxSize(),
+            onItemClick = {},
         )
     }
 }

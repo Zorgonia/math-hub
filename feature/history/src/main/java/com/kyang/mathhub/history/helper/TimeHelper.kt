@@ -6,7 +6,7 @@ import java.time.format.FormatStyle
 
 fun convertToReadable(isoDateTime: String): String {
     val parsed = LocalDateTime.parse(isoDateTime)
-    val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
     return formatter.format(parsed)
 }
 
