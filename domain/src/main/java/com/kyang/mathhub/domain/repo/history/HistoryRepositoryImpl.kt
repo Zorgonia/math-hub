@@ -3,11 +3,9 @@ package com.kyang.mathhub.domain.repo.history
 import android.util.Log
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
 import com.kyang.mathhub.domain.model.QuestionAnswerData
-import com.kyang.mathhub.domain.repo.history.mapper.isMultiplyOrAdd
-import com.kyang.mathhub.domain.repo.history.mapper.isSameReversed
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEntityToLocalMathHistoryItem
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEquationToMathQuestionEntity
-import com.kyang.mathhub.domain.repo.history.mapper.reverseQuestionOrder
+import com.kyang.mathhub.model.MathOperation
 import com.kyang.mathhub.model.db.MathQuestionDao
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +27,6 @@ class HistoryRepositoryImpl @Inject constructor(
     override suspend fun retrieveAllHistory(): List<LocalMathHistoryItem> {
 
         return dao.getAll().map {
-            Log.d("test", "$it")
             mapMathQuestionEntityToLocalMathHistoryItem(it)
         }
     }
@@ -49,4 +46,27 @@ class HistoryRepositoryImpl @Inject constructor(
         return questions
     }
 
+    private fun reverseQuestionOrder(input: String): String {
+        val split = input.split(" ")
+        if (split.size == 3) {
+            return "${split[2]} ${split[1]} ${split[0]}"
+        }
+        return input
+    }
+
+    private fun isMultiplyOrAdd(input: String): Boolean {
+        val split = input.split(" ")
+        if (split.size == 3) {
+            return split[1] == MathOperation.ADD.rep || split[1] == MathOperation.MULTIPLY.rep
+        }
+        return false
+    }
+
+    private fun isSameReversed(input: String): Boolean {
+        val split = input.split(" ")
+        if (split.size == 3) {
+            return split[2] == split[0]
+        }
+        return false
+    }
 }
