@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
-import com.kyang.mathhub.history.model.HistoryHomeUiState
+import com.kyang.mathhub.history.model.HomeHistoryUiState
 import com.kyang.mathhub.history.navigation.HistoryScreen
 import com.kyang.mathhub.history.ui.component.HistoryHomeHeader
 import com.kyang.mathhub.history.ui.component.HistoryItemRowComponent
@@ -19,7 +19,7 @@ import com.kyang.mathhub.theme.MathHubTheme
 
 @Composable
 fun HistoryHomePage(
-    uiState: HistoryHomeUiState,
+    uiState: HomeHistoryUiState,
     viewModel: HistoryViewModel,
     navController: NavHostController,
 ) {

@@ -65,3 +65,11 @@ fun isMultiplyOrAdd(input: String): Boolean {
     }
     return false
 }
+
+fun isSameReversed(input: String): Boolean {
+    val split = input.split(" ")
+    if (split.size == 3) {
+        return split[2] == split[0]
+    }
+    return false
+}

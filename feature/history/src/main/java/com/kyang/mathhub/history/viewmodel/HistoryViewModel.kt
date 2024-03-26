@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
 import com.kyang.mathhub.domain.repo.history.HistoryRepository
 import com.kyang.mathhub.history.model.HistoryDetailUiState
-import com.kyang.mathhub.history.model.HistoryHomeUiState
+import com.kyang.mathhub.history.model.HomeHistoryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +17,8 @@ import javax.inject.Inject
 class HistoryViewModel @Inject constructor(
     private val repository: HistoryRepository
 ): ViewModel() {
-    private val _homeUiState: MutableStateFlow<HistoryHomeUiState> = MutableStateFlow(HistoryHomeUiState())
-    val homeUiState: StateFlow<HistoryHomeUiState> = _homeUiState
+    private val _homeUiState: MutableStateFlow<HomeHistoryUiState> = MutableStateFlow(HomeHistoryUiState())
+    val homeUiState: StateFlow<HomeHistoryUiState> = _homeUiState
 
     private val _detailUiState: MutableStateFlow<HistoryDetailUiState> = MutableStateFlow(HistoryDetailUiState())
     val detailUiState: StateFlow<HistoryDetailUiState> = _detailUiState
@@ -44,10 +44,16 @@ class HistoryViewModel @Inject constructor(
                     historyItems = data,
                     timesAnswered = data.size,
                     timesCorrect = correct,
-                    timesIncorrect = data.size - correct
+                    timesIncorrect = data.size - correct,
+                    correctAnswer = question.correctAnswer,
+                    answerPercent = answerPercent(correct, data.size)
                 )
             }
         }
+    }
+
+    private fun answerPercent(correct: Int, size: Int): String {
+        return "%.${2}f".format(correct.toFloat()/size * 100)
     }
 
     init {

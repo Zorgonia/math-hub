@@ -4,6 +4,7 @@ import android.util.Log
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
 import com.kyang.mathhub.domain.model.QuestionAnswerData
 import com.kyang.mathhub.domain.repo.history.mapper.isMultiplyOrAdd
+import com.kyang.mathhub.domain.repo.history.mapper.isSameReversed
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEntityToLocalMathHistoryItem
 import com.kyang.mathhub.domain.repo.history.mapper.mapMathQuestionEquationToMathQuestionEntity
 import com.kyang.mathhub.domain.repo.history.mapper.reverseQuestionOrder
@@ -38,7 +39,7 @@ class HistoryRepositoryImpl @Inject constructor(
             mapMathQuestionEntityToLocalMathHistoryItem(it)
         }
 
-        if (isMultiplyOrAdd(historyItem.question)) {
+        if (isMultiplyOrAdd(historyItem.question) && !isSameReversed(historyItem.question)) {
             val oppositeOrder = dao.getByQuestion(reverseQuestionOrder(historyItem.question)).map {
                 mapMathQuestionEntityToLocalMathHistoryItem(it)
             }

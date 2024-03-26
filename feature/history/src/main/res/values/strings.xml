@@ -20,4 +20,8 @@
     <string name="history_detail_answered_correct">Answered correct: %1$d</string>
     <string name="history_detail_answered_incorrect">Answered incorrect: %1$d</string>
     <string name="history_detail_history">History: %1$d</string>
+
+    <string name="history_detail_correct_answer">The answer is %1$s</string>
+    <string name="history_detail_correct_percent">%1$s\%% correct</string>
+
 </resources>

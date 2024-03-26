@@ -8,4 +8,6 @@ data class HistoryDetailUiState(
     val timesAnswered: Int = 0,
     val timesCorrect: Int = 0,
     val timesIncorrect: Int = 0,
+    val answerPercent: String = "",
+    val correctAnswer: String = ""
 )
