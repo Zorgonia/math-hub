@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.kyang.mathhub.domain.model.QuestionAnswerData
 import com.kyang.mathhub.domain.repo.history.HistoryRepository
 import com.kyang.mathhub.domain.repo.math.MathQuestionRepository
-import com.kyang.mathhub.mathquestion.helper.isInt
+import com.kyang.mathhub.helper.extensions.isInt
 import com.kyang.mathhub.mathquestion.model.MathQuestionUiState
 import com.kyang.mathhub.model.MathQuestionEquation
 import dagger.hilt.android.lifecycle.HiltViewModel

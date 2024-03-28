@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.kyang.mathhub.tip.helper.isInt
+import com.kyang.mathhub.helper.extensions.isInt
 
 @Composable
 fun DoubleInputTextField(

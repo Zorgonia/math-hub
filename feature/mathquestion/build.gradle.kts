@@ -36,6 +36,7 @@ dependencies {
     implementation(project(":theme"))
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":helper"))
     ksp(libs.lifecycle.kapt)
 
     implementation(platform(libs.compose.bom))

@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kyang.mathhub.domain.model.LocalMathHistoryItem
 import com.kyang.mathhub.feature.history.R
-import com.kyang.mathhub.history.helper.convertToReadable
+import com.kyang.mathhub.helper.extensions.convertToReadable
 import com.kyang.mathhub.theme.LightGreen
 import com.kyang.mathhub.theme.LightRed
 
@@ -31,7 +31,7 @@ fun HistoryItemRowComponent(
             .clickable { onClick(data) },
     ) {
         Text(
-            text = convertToReadable(data.timestamp),
+            text = com.kyang.mathhub.helper.extensions.convertToReadable(data.timestamp),
             modifier = Modifier
                 .weight(0.5f),
         )
