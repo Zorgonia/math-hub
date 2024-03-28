@@ -5,9 +5,11 @@ import com.kyang.mathhub.model.MathQuestion
 import com.kyang.mathhub.model.MathQuestionEquation
 import com.kyang.mathhub.model.MathQuestionSimple
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.math.min
 import kotlin.random.Random
 
+@Singleton
 class MathQuestionRepositoryImpl @Inject constructor(
 
 ) : MathQuestionRepository {

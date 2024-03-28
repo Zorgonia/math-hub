@@ -1,16 +1,14 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kspPlugin)
 }
 
 android {
-    namespace = "com.kyang.mathhub.feature.tip"
+    namespace = "com.kyang.mathhub.helper"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-
     }
 
     kotlin {
@@ -27,25 +25,12 @@ android {
 }
 
 dependencies {
-
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.viewmodel.base)
-    implementation(libs.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(project(":theme"))
-    implementation(project(":domain"))
-    implementation(project(":helper"))
-    ksp(libs.lifecycle.kapt)
 
+    implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigation.compose)
-
 }

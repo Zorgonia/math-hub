@@ -67,7 +67,11 @@ class MathQuestionEquation(
     }
 
     override fun toString(): String {
-        return "${this.first} ${this.operation} ${this.second}"
+        return "${this.first} ${this.operation.rep} ${this.second}"
+    }
+
+    fun reverseString(): String {
+        return "${this.second} ${this.operation.rep} ${this.first}"
     }
 
 }
@@ -91,10 +95,10 @@ class MathQuestionSimple(val value: Int) : MathQuestion() {
 
 }
 
-enum class MathOperation {
-    ADD,
-    SUBTRACT,
-    DIVIDE,
-    MULTIPLY,
-    EXPONENT
+enum class MathOperation(val rep: String) {
+    ADD("+"),
+    SUBTRACT("-"),
+    DIVIDE("/"),
+    MULTIPLY("x"),
+    EXPONENT("**")
 }

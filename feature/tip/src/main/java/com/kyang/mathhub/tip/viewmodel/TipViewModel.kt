@@ -2,8 +2,8 @@ package com.kyang.mathhub.tip.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.kyang.mathhub.domain.repo.tip.TipRepository
-import com.kyang.mathhub.tip.helper.isDouble
-import com.kyang.mathhub.tip.helper.toPriceString
+import com.kyang.mathhub.helper.extensions.isDouble
+import com.kyang.mathhub.helper.extensions.toPriceString
 import com.kyang.mathhub.tip.model.TipPrice
 import com.kyang.mathhub.tip.model.TipUIState
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -3,8 +3,10 @@ package com.kyang.mathhub.mathquestion.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kyang.mathhub.domain.model.QuestionAnswerData
+import com.kyang.mathhub.domain.repo.history.HistoryRepository
 import com.kyang.mathhub.domain.repo.math.MathQuestionRepository
-import com.kyang.mathhub.mathquestion.helper.isInt
+import com.kyang.mathhub.helper.extensions.isInt
 import com.kyang.mathhub.mathquestion.model.MathQuestionUiState
 import com.kyang.mathhub.model.MathQuestionEquation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MathQuestionViewModel @Inject constructor(
     private val mathQuestionRepository: MathQuestionRepository,
+    private val historyRepository: HistoryRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MathQuestionUiState())
@@ -161,10 +164,20 @@ class MathQuestionViewModel @Inject constructor(
                     maxTime = curr.maxTime.toInt(),
                     timed = curr.timeEnabled,
                 )
-                if (curr.answer.isNotEmpty() && curr.answer.toInt() == mathQuestionRepository.getAnswer(
-                        questionHistory.last(),
+                val correctAnswer = mathQuestionRepository.getAnswer(questionHistory.last())
+                val answerIsCorrect = curr.answer.isNotEmpty() &&
+                    curr.answer.toInt() == correctAnswer
+                viewModelScope.launch {
+                    historyRepository.addQuestionToHistory(
+                        QuestionAnswerData(
+                            question = questionHistory.last(),
+                            userAnswer = curr.answer,
+                            correctAnswer = correctAnswer.toString(),
+                            timeUsed = curr.maxTime.toInt() - curr.currTime,
+                        )
                     )
-                ) {
+                }
+                if (answerIsCorrect) {
                     curr.copy(
                         submitted = true,
                         correct = true,

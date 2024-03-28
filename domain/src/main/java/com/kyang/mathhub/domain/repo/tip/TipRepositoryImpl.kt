@@ -1,8 +1,10 @@
 package com.kyang.mathhub.domain.repo.tip
 
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
+@Singleton
 class TipRepositoryImpl @Inject constructor() : TipRepository {
     override fun getTip(price: Double, tipPercent: Double): Double {
         return price * (tipPercent / 100)

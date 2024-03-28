@@ -2,4 +2,26 @@
 <resources>
     <string name="history_home_header">Math Question History</string>
     <string name="history_detail">History Detail</string>
+
+    <string name="history_date_header">Date</string>
+    <string name="history_question_header">Question</string>
+    <string name="history_correct_header">Correct?</string>
+    <string name="history_your_answer_header">Your Answer</string>
+    <string name="history_correct_answer_header">Correct Answer</string>
+    <string name="history_time_used_header">Time</string>
+
+    <string name="history_correct">Correct</string>
+    <string name="history_incorrect">Incorrect</string>
+
+    <string name="no_answer">no answer</string>
+    <string name="loading">Loading…</string>
+
+    <string name="history_detail_times_answered">Times answered: %1$d</string>
+    <string name="history_detail_answered_correct">Answered correct: %1$d</string>
+    <string name="history_detail_answered_incorrect">Answered incorrect: %1$d</string>
+    <string name="history_detail_history">History: %1$d</string>
+
+    <string name="history_detail_correct_answer">The answer is %1$s</string>
+    <string name="history_detail_correct_percent">%1$s\%% correct</string>
+
 </resources>
