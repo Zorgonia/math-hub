@@ -9,4 +9,6 @@ interface HistoryRepository {
     suspend fun retrieveAllHistory(): List<LocalMathHistoryItem>
 
     suspend fun retrieveByQuestion(historyItem: LocalMathHistoryItem): List<LocalMathHistoryItem>
+
+    suspend fun deleteHistory()
 }

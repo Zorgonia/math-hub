@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
-    private val repository: HistoryRepository
+    private val historyRepository: HistoryRepository
 ): ViewModel() {
     private val _homeUiState: MutableStateFlow<HomeHistoryUiState> = MutableStateFlow(HomeHistoryUiState())
     val homeUiState: StateFlow<HomeHistoryUiState> = _homeUiState
@@ -25,7 +25,7 @@ class HistoryViewModel @Inject constructor(
 
     private fun getAllHistory(){
         viewModelScope.launch {
-            val data = repository.retrieveAllHistory()
+            val data = historyRepository.retrieveAllHistory()
             _homeUiState.update { curr ->
                 curr.copy(
                     data = data
@@ -36,7 +36,7 @@ class HistoryViewModel @Inject constructor(
 
     fun getHistory(question: LocalMathHistoryItem) {
         viewModelScope.launch {
-            val data = repository.retrieveByQuestion(question)
+            val data = historyRepository.retrieveByQuestion(question)
             val correct = data.count { it.correct }
             _detailUiState.update { curr ->
                 curr.copy(
@@ -54,6 +54,34 @@ class HistoryViewModel @Inject constructor(
 
     private fun answerPercent(correct: Int, size: Int): String {
         return "%.${2}f".format(correct.toFloat()/size * 100)
+    }
+
+    fun openDeleteDialog() {
+        _homeUiState.update { curr ->
+            curr.copy(
+                deleteDialogOpen = true
+            )
+        }
+    }
+
+    fun dismissDeleteDialog() {
+        _homeUiState.update { curr ->
+            curr.copy(
+                deleteDialogOpen = false
+            )
+        }
+    }
+    fun deleteHistory() {
+        viewModelScope.launch {
+            historyRepository.deleteHistory()
+            val data = historyRepository.retrieveAllHistory()
+            _homeUiState.update { curr ->
+                curr.copy(
+                    data = data,
+                    deleteDialogOpen = false
+                )
+            }
+        }
     }
 
     init {
