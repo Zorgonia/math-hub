@@ -46,6 +46,10 @@ class HistoryRepositoryImpl @Inject constructor(
         return questions
     }
 
+    override suspend fun deleteHistory() {
+        dao.deleteHistory()
+    }
+
     private fun reverseQuestionOrder(input: String): String {
         val split = input.split(" ")
         if (split.size == 3) {

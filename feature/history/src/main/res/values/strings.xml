@@ -24,4 +24,11 @@
     <string name="history_detail_correct_answer">The answer is %1$s</string>
     <string name="history_detail_correct_percent">%1$s\%% correct</string>
 
+    <string name="fab_delete_history">Delete History</string>
+
+    <string name="alert_history_delete_title">Delete History</string>
+    <string name="alert_history_delete_text">Are you sure you would like to delete your question history?</string>
+    <string name="alert_cancel">Cancel</string>
+    <string name="alert_delete">Delete</string>
+
 </resources>
